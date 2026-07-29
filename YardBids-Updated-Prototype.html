@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>YardBids prototype</title>
+  <style>
+    :root{--navy:#15243a;--coral:#ff6547;--teal:#168f84;--cream:#fffaf2;--sand:#eee4d6;--ink:#202b38;--muted:#647083;--white:#fff}*{box-sizing:border-box}body{margin:0;background:#ece9e2;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{position:relative;width:min(100%,440px);min-height:100vh;margin:auto;background:var(--cream);overflow:hidden}.screen{display:none;min-height:100vh;padding-bottom:84px}.screen.active{display:block}.top{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 10px}.logo{font-size:25px;font-weight:900;letter-spacing:-1.5px;color:var(--navy)}.logo b{color:var(--coral)}button{font:inherit;cursor:pointer}.location,.ghost{border:0;background:#fff;padding:9px 12px;border-radius:18px;color:var(--navy);font-size:13px;font-weight:800;box-shadow:0 1px 4px #202b3814}.tabs{display:flex;gap:24px;padding:6px 20px 17px;font-size:14px;font-weight:800;color:var(--muted)}.tabs span:first-child{color:var(--navy);position:relative}.tabs span:first-child:after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:3px;background:var(--coral);border-radius:4px}.auction-card{position:relative;height:566px;margin:0 14px;border-radius:24px;overflow:hidden;background:#cbb69d;box-shadow:0 12px 30px #4a3a201d}.scene{position:absolute;inset:0;background:linear-gradient(150deg,#cfbfa8 0 45%,#f2e9db 46% 62%,#8b735f 63%)}.frame{position:absolute;top:75px;left:37px;width:128px;height:96px;border:8px solid #fff8ee;background:linear-gradient(135deg,#cf896f,#f8d897)}.sofa{position:absolute;bottom:65px;left:27px;width:255px;height:110px;background:#5c806d;border-radius:30px 30px 12px 12px;box-shadow:inset 0 17px #729985}.sofa:before{content:"";position:absolute;left:0;top:41px;width:100%;border-top:2px solid #426453}.lamp{position:absolute;right:39px;top:133px;width:126px;height:330px}.shade{height:85px;background:#e8c982;clip-path:polygon(18% 0,82% 0,100% 100%,0 100%);filter:drop-shadow(0 6px 5px #382a1d55)}.stem{height:192px;width:8px;background:#745537;margin:auto}.base{height:17px;width:85px;margin:-3px auto;background:#604326;border-radius:50%}.live{position:absolute;top:18px;left:18px;background:var(--coral);color:#fff;border-radius:20px;padding:7px 10px;font-size:11px;font-weight:900;letter-spacing:.6px}.card-actions{position:absolute;right:18px;bottom:190px;display:grid;gap:12px}.round{border:0;width:44px;height:44px;border-radius:50%;background:#fffdfbe8;color:var(--navy);font-size:18px;font-weight:900}.overlay{position:absolute;inset:auto 0 0;color:#fff;padding:58px 20px 20px;background:linear-gradient(transparent,rgba(11,20,32,.94) 49%)}.meta{display:flex;justify-content:space-between;font-size:12px;font-weight:800}.overlay h1{font-size:27px;letter-spacing:-1px;margin:10px 0 3px}.sub{font-size:14px;opacity:.88}.price-row{display:flex;justify-content:space-between;align-items:end;margin:18px 0}.eyebrow{font-size:10px;letter-spacing:.7px;font-weight:900}.price{font-size:30px;font-weight:900}.timer{font-size:19px;font-weight:900;color:#ffdd78}.primary{border:0;background:var(--coral);color:#fff;padding:15px 18px;border-radius:16px;font-weight:900;box-shadow:0 7px 18px #ff654760}.wide{width:100%;font-size:16px}.nav{position:absolute;z-index:5;bottom:0;left:0;right:0;height:78px;background:#fffdf9;border-top:1px solid var(--sand);display:flex;align-items:center;justify-content:space-around;color:var(--muted);font-size:10px;font-weight:800}.nav button{border:0;background:transparent;color:inherit;font:inherit;min-width:54px}.nav strong{display:block;font-size:24px;line-height:26px;color:var(--navy)}.nav .sell strong{margin:auto;background:var(--coral);color:#fff;border-radius:13px;width:43px;height:36px;padding-top:4px}.back{border:0;background:transparent;font-size:25px;color:var(--navy);padding:15px 20px}.hero{height:295px;position:relative;overflow:hidden;background:linear-gradient(150deg,#cfbfa8 0 45%,#f2e9db 46% 62%,#8b735f 63%)}.hero .lamp{transform:scale(.82);transform-origin:top right;right:36px;top:61px}.detail{padding:17px 20px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.status{font-size:12px;font-weight:900;color:var(--coral)}h2{font-size:27px;letter-spacing:-1px;margin:7px 0 12px}.bid-box{background:var(--navy);color:#fff;border-radius:18px;padding:16px;margin:18px 0}.bid-box .amount{font-size:29px;font-weight:900;margin-top:4px}.delivery{display:flex;gap:9px;margin:10px 0 18px}.delivery button{flex:1;border:1px solid var(--sand);background:#fff;padding:12px;text-align:left;border-radius:14px;font-size:13px;font-weight:800;color:var(--ink)}.delivery button.selected{border:2px solid var(--teal);background:#edfffb}.delivery small{font-size:11px;color:var(--muted)}.chat{border:1px solid var(--sand);background:#fff;border-radius:18px;padding:14px}.chat h3{margin:0 0 10px;font-size:15px}.msg{font-size:13px;padding:6px 0}.msg b{color:var(--teal)}.sticky{position:sticky;bottom:0;padding:16px 0 0;background:var(--cream)}.heading{padding:8px 20px 16px}.heading h1{font-size:28px;letter-spacing:-1.1px;margin:0 0 4px}.heading p{margin:0;color:var(--muted);font-size:14px}.form{padding:4px 20px}.upload{border:2px dashed #c8baaa;background:#fffdf9;border-radius:20px;text-align:center;padding:31px 16px;margin:8px 0 20px;color:var(--navy);font-weight:900}.upload span{display:block;color:var(--muted);font-size:12px;font-weight:500;margin-top:6px}.field{display:grid;gap:6px;margin:13px 0;font-size:13px;font-weight:800}.field input,.field select{width:100%;border:1px solid var(--sand);border-radius:12px;background:#fff;padding:13px;font:inherit;color:var(--ink)}.choice{display:flex;gap:8px}.choice button{flex:1;border:1px solid var(--sand);background:#fff;border-radius:12px;padding:10px 5px;font-size:12px;font-weight:800}.choice button.selected{background:#fff0ec;border-color:var(--coral);color:#b83a27}.checkout-card{margin:0 20px;background:#fff;border:1px solid var(--sand);border-radius:20px;padding:16px}.item-mini{display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--sand);padding-bottom:14px}.thumb{width:66px;height:60px;border-radius:12px;background:linear-gradient(150deg,#e9ddc8,#75604e);position:relative}.thumb:after{content:"";position:absolute;width:21px;height:38px;right:16px;top:9px;background:#e8c982;clip-path:polygon(20% 0,80% 0,100% 100%,0 100%)}.line{display:flex;justify-content:space-between;margin:13px 0;font-size:14px}.total{font-size:18px;font-weight:900;border-top:1px solid var(--sand);padding-top:14px}.safety{margin:16px 20px;padding:14px;background:#e9fbf8;border-radius:16px;color:#165f59;font-size:13px}.safety b{display:block;margin-bottom:4px}.success{padding:58px 25px;text-align:center}.check{width:72px;height:72px;margin:0 auto 19px;border-radius:50%;display:grid;place-items:center;background:#e3faf6;color:var(--teal);font-size:35px;font-weight:900}.success h1{font-size:30px;letter-spacing:-1.2px;margin:0 0 8px}.success p{color:var(--muted);line-height:1.5}.toast{display:none;position:absolute;z-index:9;bottom:92px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;border-radius:14px;padding:11px 15px;font-weight:800;font-size:13px;white-space:nowrap}.toast.show{display:block}.list{padding:8px 20px 20px}.list h3{margin:0 0 12px}.list-item{width:100%;border:0;background:#fff;padding:10px;border-radius:16px;display:flex;gap:11px;text-align:left;align-items:center;margin-bottom:9px;color:var(--ink)}.mini-photo{width:54px;height:54px;border-radius:11px;background:linear-gradient(135deg,#a8b6a2,#5c806d)}.list-item small{display:block;color:var(--muted);margin-top:3px}.avatar{display:grid;place-items:center;width:68px;height:68px;border-radius:50%;background:#d7f2ee;color:#16746a;font-size:22px;font-weight:900}.profile-head{padding:22px 20px;display:flex;gap:14px;align-items:center}.profile-head h1{font-size:25px;margin:0}.profile-head p{margin:3px 0;color:var(--muted);font-size:13px}.verified{color:var(--teal);font-weight:800}.profile-stats{display:flex;gap:8px;padding:0 20px}.profile-stats div{flex:1;text-align:center;background:#fff;border-radius:14px;padding:12px 5px;font-size:12px}.profile-stats b{display:block;font-size:17px;color:var(--navy)}.order{margin:8px 20px;border:1px solid var(--sand);background:#fff;border-radius:17px;padding:13px;display:flex;gap:12px;align-items:center}.order .thumb{flex:0 0 53px;width:53px;height:53px}.order p{margin:3px 0;color:var(--muted);font-size:12px}.map{position:relative;height:260px;margin:0 20px;border-radius:22px;overflow:hidden;background:linear-gradient(135deg,#daf0ea,#efede2)}.map:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(25deg,transparent 0 28px,#ffffffb9 29px 34px,transparent 35px 63px),repeating-linear-gradient(105deg,transparent 0 40px,#ffffff9a 41px 45px,transparent 46px 79px)}.pin{position:absolute;z-index:1;width:38px;height:38px;border:0;border-radius:50% 50% 50% 0;background:var(--coral);color:#fff;transform:rotate(-45deg);font-weight:900}.pin span{display:block;transform:rotate(45deg)}.pin.one{left:31%;top:34%}.pin.two{left:62%;top:53%;background:var(--teal)}.meetup{margin:11px 20px;border:1px solid var(--sand);width:calc(100% - 40px);display:flex;align-items:center;gap:11px;text-align:left;border-radius:16px;padding:13px;background:#fff;color:var(--ink)}.meetup.selected{border:2px solid var(--teal);background:#edfffb}.meetup .icon{font-size:23px}.meetup small{display:block;color:var(--muted);margin-top:3px}.search{margin:0 20px 16px;display:flex;gap:8px}.search input{flex:1;border:1px solid var(--sand);border-radius:15px;padding:13px;background:#fff;font:inherit}.category-grid{padding:0 20px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.category{border:0;border-radius:17px;min-height:82px;background:#fff;text-align:left;padding:14px;color:var(--navy);font-weight:900}.category span{display:block;font-size:25px;margin-bottom:4px}.notice{margin:18px 20px;padding:14px;border-radius:16px;background:#fff0ec;color:#8e392b;font-size:13px}.notice b{display:block;margin-bottom:3px}@media(min-width:600px){body{padding:20px}.app{min-height:850px;border-radius:34px;box-shadow:0 25px 70px #3c2d1930}.screen{min-height:850px}.nav{position:absolute}}
+    .watch-head{display:flex;justify-content:space-between;align-items:center;padding:8px 20px 14px}.watch-head h1{margin:0;font-size:28px;letter-spacing:-1px}.watch-card{margin:0 20px 12px;padding:13px;background:#fff;border:1px solid var(--sand);border-radius:19px;display:flex;gap:12px;align-items:center}.watch-card .thumb{flex:0 0 76px;width:76px;height:76px}.watch-card h3{margin:0 0 4px;font-size:15px}.watch-card p{margin:3px 0;color:var(--muted);font-size:12px}.watch-card .ending{color:var(--coral);font-weight:900}.reminder{margin:18px 20px;background:#e9fbf8;border-radius:17px;padding:14px;color:#165f59;font-size:13px}.reminder b{display:block;margin-bottom:4px}.account-banner{margin:0 20px 18px;padding:15px;border-radius:17px;background:#fff0ec;color:#8e392b;font-size:13px}.account-banner b{display:block;margin-bottom:4px}.account-action{margin:0 20px 10px;width:calc(100% - 40px);border:1px solid var(--sand);background:#fff;padding:14px;border-radius:15px;text-align:left;color:var(--ink);font-weight:800}.account-action small{display:block;color:var(--muted);margin-top:3px;font-weight:500}.verify-steps{margin:10px 20px}.verify-step{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--sand);font-size:14px}.verify-step .step-icon{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#e3faf6;color:var(--teal);font-weight:900}.handoff-card{margin:8px 20px;padding:18px;border-radius:20px;background:var(--navy);color:#fff}.handoff-card h2{margin:6px 0;font-size:23px}.handoff-card p{font-size:13px;line-height:1.45;opacity:.85}.status-pill{display:inline-block;border-radius:20px;background:#ffffff1e;padding:6px 9px;font-size:11px;font-weight:900}.stars{display:flex;justify-content:center;gap:8px;margin:24px 0}.stars button{border:0;background:transparent;font-size:36px;color:#d9cfbf;padding:0}.stars button.selected{color:#ffb524}.rating-choice{display:flex;gap:8px;flex-wrap:wrap;margin:0 20px 18px}.rating-choice button{border:1px solid var(--sand);background:#fff;border-radius:16px;padding:11px;font-size:13px;color:var(--ink)}.rating-choice button.selected{background:#edfffb;border:2px solid var(--teal)}.seller-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:0 20px 19px}.seller-stats div{background:#fff;padding:13px 9px;border-radius:15px;font-size:11px;color:var(--muted)}.seller-stats b{display:block;color:var(--navy);font-size:19px;margin-bottom:3px}.payout{margin:0 20px 18px;padding:16px;border-radius:18px;background:#e9fbf8;color:#165f59}.payout b{display:block;font-size:20px;margin:3px 0}.payout small{font-size:12px}.report-option{width:calc(100% - 40px);margin:0 20px 9px;border:1px solid var(--sand);background:#fff;border-radius:15px;padding:14px;text-align:left;color:var(--ink);font-weight:800}.report-option.selected{border:2px solid var(--coral);background:#fff0ec}.report-note{margin:13px 20px;width:calc(100% - 40px);border:1px solid var(--sand);border-radius:14px;padding:12px;font:inherit;resize:vertical}.tracking{margin:8px 20px}.tracking-step{position:relative;padding:0 0 20px 39px;font-size:14px}.tracking-step:before{content:"";position:absolute;left:12px;top:18px;bottom:-3px;border-left:2px solid var(--sand)}.tracking-step:last-child:before{display:none}.tracking-step:after{content:"";position:absolute;left:5px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--sand)}.tracking-step.active:after{background:var(--teal);border-color:var(--teal)}.tracking-step b{display:block}.tracking-step small{color:var(--muted)}.chat-compose{display:flex;gap:8px;margin-top:10px}.chat-compose input{min-width:0;flex:1;border:1px solid var(--sand);border-radius:13px;padding:10px;font:inherit;font-size:13px}.chat-compose button{border:0;background:var(--navy);color:#fff;border-radius:13px;padding:8px 12px;font-weight:900}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section id="home" class="screen active">
+      <header class="top"><div class="logo">Yard<b>Bids</b></div><div style="display:flex;gap:7px"><button class="ghost" onclick="showScreen('alerts')">🔔</button><button class="location" id="homeLocation" onclick="showScreen('location')">📍 Near you</button></div></header>
+      <div class="tabs"><span>For you</span><span>Live now</span><span>Following</span></div>
+      <article class="auction-card" onclick="showScreen('auction')"><div class="scene"><div class="frame"></div><div class="sofa"></div><div class="lamp"><div class="shade"></div><div class="stem"></div><div class="base"></div></div></div><span class="live">● LIVE AUCTION</span><div class="card-actions"><button class="round" onclick="event.stopPropagation();watchItem()">♡</button><button class="round" onclick="event.stopPropagation();showScreen('auction')">💬</button></div><div class="overlay"><div class="meta"><span>📍 1.2 mi away</span><span>👥 <span id="feedBidders">12</span> bidders</span></div><h1>Mid-century floor lamp</h1><button class="sub" style="border:0;background:transparent;color:inherit;padding:0" onclick="openMayaProfile(event)">Great condition · Maya R. ★ 4.9</button><div class="price-row"><div><div class="eyebrow">CURRENT BID</div><div class="price" id="feedPrice">$18.00</div></div><div class="timer">02:14 left</div></div><button class="primary wide" onclick="event.stopPropagation();showScreen('auction')">Place a bid</button></div></article>
+      <section class="list"><h3>Up next near you</h3><button class="list-item" onclick="toast('This auction starts at 7:30 PM')"><div class="mini-photo"></div><span><b>Retro green armchair</b><small>Starts at $10 · 0.8 mi away</small></span></button><button class="list-item" onclick="toast('Saved: Kitchen bundle')"><div class="mini-photo" style="background:linear-gradient(135deg,#e5c896,#8c6a41)"></div><span><b>Kitchen starter bundle</b><small>Starts at $5 · Shipping available</small></span></button></section>
+    </section>
+    <section id="alerts" class="screen"><header class="top"><button class="back" onclick="showScreen('home')">←</button><div class="logo">Your <b>alerts</b></div><button class="ghost" onclick="toast('All caught up!')">Read all</button></header><div class="heading"><h1>Don’t miss a thing</h1><p>Auctions, bids, messages, and delivery updates appear here.</p></div><div class="list"><button class="list-item" onclick="showScreen('auction')"><div class="avatar" style="width:48px;height:48px;font-size:17px;background:#fff0ec;color:#c04d38">●</div><span><b>Ending soon: floor lamp</b><small>2 minutes left · You’re currently in the lead.</small></span></button><button class="list-item" onclick="showScreen('conversation')"><div class="avatar" style="width:48px;height:48px;font-size:17px">M</div><span><b>Maya sent you a message</b><small>“Hi! Thanks for your interest in the lamp.”</small></span></button><button class="list-item" onclick="showScreen('liveevent')"><div class="avatar" style="width:48px;height:48px;font-size:17px;background:#fff0ec;color:#c04d38">★</div><span><b>Thursday Night Finds starts tonight</b><small>42 local auctions · 7–9 PM</small></span></button><button class="list-item" onclick="showScreen('shipping')"><div class="avatar" style="width:48px;height:48px;font-size:17px">📦</div><span><b>Your shipping label is ready</b><small>Track your floor lamp delivery.</small></span></button></div></section>
+    <section id="auction" class="screen"><button class="back" onclick="showScreen('home')">←</button><div class="hero"><div class="lamp"><div class="shade"></div><div class="stem"></div><div class="base"></div></div><span class="live">● LIVE AUCTION</span></div><main class="detail"><div class="row"><span class="status">ENDS IN <span id="timerText">02:14</span></span><span>👥 <span id="bidderCount">12</span> bidders</span></div><h2>Mid-century floor lamp</h2><button class="ghost" style="margin-bottom:12px" onclick="showScreen('profile')">Maya R. · ★ 4.9 · View seller</button><div class="bid-box"><div class="row"><span>Current bid</span><span id="nextBid">Next bid: $20</span></div><div class="amount" id="auctionAmount">$18.00</div></div><button class="ghost" style="margin-bottom:12px" onclick="showScreen('bidhistory')">View bid history</button><h3>How would you like it?</h3><div class="delivery"><button class="selected" onclick="selectAuctionDelivery(this,'pickup')">📍 Local pickup<br><small>1.2 mi away</small></button><button onclick="selectAuctionDelivery(this,'shipping')">📦 Shipping<br><small>From $8.99</small></button></div><section class="chat"><h3>Live chat <small>(<span id="chatCount">8</span>)</small><button class="ghost" style="float:right;margin-top:-8px" onclick="shareAuction()">Share</button></h3><div class="msg"><b>Jordan:</b> Does it include the bulb?</div><div class="msg"><b>Maya (seller):</b> Yes—working LED bulb included!</div><div class="msg"><b>Chris:</b> $18 bid placed 🙌</div><div id="newBidMessage"></div><div id="chatMessages"></div><div class="chat-compose"><input id="chatInput" placeholder="Ask Maya a question…" onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">Send</button></div></section><div class="sticky"><button class="primary wide" id="bidButton" onclick="placeBid()">Bid $20.00</button></div></main></section>
+    <section id="bidhistory" class="screen"><header class="top"><button class="back" onclick="showScreen('auction')">←</button><div class="logo">Bid <b>history</b></div><span></span></header><div class="heading"><h1>Current bid: <span id="historyAmount">$18.00</span></h1><p>Bidder names are private. Every bid is time-stamped to keep auctions fair.</p></div><div class="list"><div class="list-item"><div class="avatar" style="width:44px;height:44px;font-size:15px">C</div><span><b>Bidder C•••</b><small>$18.00 · A few moments ago</small></span></div><div class="list-item"><div class="avatar" style="width:44px;height:44px;font-size:15px">J</div><span><b>Bidder J•••</b><small>$16.00 · 1 minute ago</small></span></div><div class="list-item"><div class="avatar" style="width:44px;height:44px;font-size:15px">A</div><span><b>Bidder A•••</b><small>$14.00 · 2 minutes ago</small></span></div></div><div class="safety"><b>Fair-ending rule</b>Any bid placed during the final minute extends the auction by one minute so everyone gets a fair chance.</div></section>
+    <section id="sell" class="screen"><header class="top"><button class="back" onclick="showScreen('home')">←</button><div class="logo">Sell on Yard<b>Bids</b></div><span></span></header><div class="heading"><h1>Post an item</h1><p>Turn something useful into a live auction.</p></div><form class="form" onsubmit="postListing(event)"><input id="listingPhoto" type="file" accept="image/*,video/*" hidden onchange="previewMedia(this)"><div class="upload" id="uploadBox" onclick="document.getElementById('listingPhoto').click()">＋ Add photos or a short video<span>Clear photos help buyers bid with confidence.</span></div><label class="field">Item title<input required placeholder="e.g. Mid-century floor lamp"></label><label class="field">Category<select><option>Home & kitchen</option><option>Furniture</option><option>Tools & DIY</option><option>Baby & kids</option><option>Electronics</option></select></label><label class="field">Condition<select id="conditionSelect"><option>Like new</option><option>Good</option><option>Fair</option><option>Needs repair</option></select></label><label class="field">Description<textarea id="listingDescription" rows="3" class="report-note" style="width:100%;margin:0" placeholder="Mention any wear, missing parts, or helpful details."></textarea></label><label class="field">Starting bid<input required type="number" min="1" placeholder="$0.00"></label><div class="field">Auction length<div class="choice" id="length"><button type="button" class="selected" onclick="selectChoice('length',this)">15 min</button><button type="button" onclick="selectChoice('length',this)">1 hour</button><button type="button" onclick="selectChoice('length',this)">24 hours</button></div></div><div class="field">Delivery options<div class="choice" id="delivery-choice"><button type="button" class="selected" onclick="selectChoice('delivery-choice',this)">Pickup</button><button type="button" onclick="selectChoice('delivery-choice',this)">Shipping</button><button type="button" onclick="selectChoice('delivery-choice',this)">Both</button></div></div><button class="primary wide" type="submit">Preview listing</button></form></section>
+    <section id="discover" class="screen"><header class="top"><div class="logo">Dis<b>cover</b></div><button class="location" id="discoverLocation" onclick="showScreen('location')">📍 Near you</button></header><div class="search"><input id="searchBox" placeholder="Search furniture, tools, toys…" oninput="searchItems()"><button class="ghost" onclick="showScreen('filters')">⚙</button></div><div class="list" id="searchResults" style="display:none"><h3 id="searchHeading">Search results</h3><button class="list-item" onclick="showScreen('auction')"><div class="mini-photo" style="background:linear-gradient(135deg,#e8c982,#6a4e31)"></div><span><b id="searchItemTitle">Mid-century floor lamp</b><small>Live now · Pickup or shipping</small></span></button></div><div class="heading"><h1>Browse categories</h1><p id="discoverFilter">Find useful things nearby or shipped to you.</p></div><div class="category-grid"><button class="category" onclick="toast('Showing Furniture')"><span>🛋️</span>Furniture</button><button class="category" onclick="toast('Showing Home & kitchen')"><span>🍳</span>Home & kitchen</button><button class="category" onclick="toast('Showing Tools & DIY')"><span>🔨</span>Tools & DIY</button><button class="category" onclick="toast('Showing Baby & kids')"><span>🧸</span>Baby & kids</button><button class="category" onclick="toast('Showing Electronics')"><span>🎮</span>Electronics</button><button class="category" onclick="toast('Showing Sports & outdoors')"><span>🏀</span>Sports & outdoors</button></div><button class="notice" style="border:0;text-align:left;width:calc(100% - 40px)" onclick="showScreen('liveevent')"><b>● Live tonight: Thursday Night Finds</b>Join 42 local auctions from 7–9 PM.</button><div class="list"><h3>Starting soon</h3><button class="list-item" onclick="showScreen('auction')"><div class="mini-photo" style="background:linear-gradient(135deg,#bd927b,#5b705c)"></div><span><b>Vintage plant stand</b><small>Starts in 8 min · $5 opening bid</small></span></button></div></section>
+    <section id="filters" class="screen"><header class="top"><button class="back" onclick="showScreen('discover')">←</button><div class="logo">Filter <b>auctions</b></div><span></span></header><div class="heading"><h1>Show me</h1><p>Choose what matters most for your next find.</p></div><div class="form"><div class="field">Delivery<div class="choice" id="filter-delivery"><button type="button" class="selected" onclick="selectChoice('filter-delivery',this)">Any</button><button type="button" onclick="selectChoice('filter-delivery',this)">Pickup</button><button type="button" onclick="selectChoice('filter-delivery',this)">Shipping</button></div></div><div class="field">Auction timing<div class="choice" id="filter-timing"><button type="button" class="selected" onclick="selectChoice('filter-timing',this)">Any time</button><button type="button" onclick="selectChoice('filter-timing',this)">Live now</button><button type="button" onclick="selectChoice('filter-timing',this)">Ending soon</button></div></div><button class="primary wide" onclick="applyFilters()">Apply filters</button></div></section>
+    <section id="categoryresults" class="screen"><header class="top"><button class="back" onclick="showScreen('discover')">←</button><div class="logo"><span id="categoryTitle">Furniture</span> <b>auctions</b></div><span></span></header><div class="heading"><h1 id="categoryHeading">Furniture near you</h1><p>Live, upcoming, and shippable finds.</p></div><div class="list"><button class="list-item" onclick="showScreen('auction')"><div class="mini-photo" style="background:linear-gradient(135deg,#e8c982,#6a4e31)"></div><span><b id="categoryItem">Mid-century floor lamp</b><small>Live now · Current bid $18 · Pickup or shipping</small></span></button><button class="list-item" onclick="toast('Added to your watchlist')"><div class="mini-photo" style="background:linear-gradient(135deg,#b2c1a8,#5a7664)"></div><span><b>Local weekend find</b><small>Starts in 16 min · 1.7 mi away</small></span></button></div></section>
+    <section id="location" class="screen"><header class="top"><button class="back" onclick="showScreen('home')">←</button><div class="logo">Your <b>area</b></div><span></span></header><div class="heading"><h1>See auctions near you</h1><p>YardBids shows an approximate area only. Your exact home address remains private.</p></div><div class="form"><label class="field">City or ZIP code<input id="locationInput" placeholder="e.g. Newark, NJ or 07102"></label><button class="primary wide" onclick="saveLocation()">Save location</button></div><div class="safety"><b>🛡️ Your location is private</b>Other members only see approximate distance until payment is complete.</div></section>
+    <section id="liveevent" class="screen"><header class="top"><button class="back" onclick="showScreen('discover')">←</button><div class="logo">YardBids <b>Live</b></div><span></span></header><div class="handoff-card"><span class="status-pill">● TONIGHT</span><h2>Thursday Night Finds</h2><p>7–9 PM · 42 auctions from people in your area. Watch, chat, and bid as items go live.</p></div><div class="heading" style="padding-top:24px"><h1 style="font-size:22px">What’s going live</h1><p>A new item begins every few minutes.</p></div><div class="list"><button class="list-item" onclick="showScreen('auction')"><div class="mini-photo" style="background:linear-gradient(135deg,#e8c982,#6a4e31)"></div><span><b>Mid-century floor lamp</b><small>Live now · 12 bidders</small></span></button><button class="list-item" onclick="toast('This auction begins at 7:30 PM')"><div class="mini-photo" style="background:linear-gradient(135deg,#b2c1a8,#5a7664)"></div><span><b>Retro green armchair</b><small>Starts at 7:30 PM · Opening bid $10</small></span></button><button class="list-item" onclick="toast('This auction begins at 7:45 PM')"><div class="mini-photo" style="background:linear-gradient(135deg,#d0aa7c,#745b40)"></div><span><b>Kitchen starter bundle</b><small>Starts at 7:45 PM · Shipping available</small></span></button></div><div class="form"><button class="primary wide" onclick="rsvpLiveEvent()">Remind me before it starts</button></div></section>
+    <section id="preview" class="screen"><header class="top"><button class="back" onclick="showScreen('sell')">←</button><div class="logo">Listing <b>preview</b></div><span></span></header><div class="hero" id="previewImage" style="height:255px"><div class="lamp" style="transform:scale(.72);transform-origin:top right;top:35px"><div class="shade"></div><div class="stem"></div><div class="base"></div></div><span class="live" style="background:var(--teal)">READY TO GO LIVE</span></div><div class="detail"><h2 id="previewTitle">Your item</h2><p id="previewDetails" style="color:var(--muted);font-size:14px">Like new</p><p id="previewDescription" style="font-size:14px"></p><div class="bid-box"><div class="row"><span>Starting bid</span><span id="previewAuction">15 min auction</span></div><div class="amount" id="previewPrice">$0.00</div></div><div class="safety" style="margin:0 0 16px"><b>🛡️ Your exact address stays private</b>Buyers see only your general area until payment is complete.</div><button class="primary wide" onclick="publishListing()">Post live auction</button></div></section>
+    <section id="checkout" class="screen"><header class="top"><button class="back" onclick="showScreen('auction')">←</button><div class="logo">You won! 🎉</div><span></span></header><div class="checkout-card"><div class="item-mini"><div class="thumb"></div><div><b>Mid-century floor lamp</b><br><small>Winning bid: $18.00</small></div></div><div class="line"><span>Winning bid</span><b>$18.00</b></div><div class="line"><span>Buyer protection</span><b>$1.49</b></div><div class="line"><span id="deliveryLine">Local pickup</span><b id="deliveryCost">Free</b></div><button class="line" style="border:0;background:transparent;width:100%;padding:0;text-align:left" onclick="showScreen('payment')"><span>Payment method</span><b id="paymentLabel">Visa ·•••• 4408 ›</b></button><div class="line total"><span>Total</span><b id="checkoutTotal">$19.49</b></div></div><div class="heading" id="checkoutHeading" style="padding-top:20px"><h1 style="font-size:20px">Choose a safe handoff</h1><p>Select after payment—exact addresses stay private.</p></div><div class="form" id="checkoutOptions"><div class="delivery"><button class="selected" onclick="selectCheckoutDelivery(this,'safe')">🛡️ YardBids Safe Meetup<br><small>Public place nearby</small></button><button onclick="selectCheckoutDelivery(this,'pickup')">📍 Seller pickup<br><small>Details after payment</small></button></div><button class="primary wide" id="payButton" onclick="showScreen('complete')">Pay $19.49 securely</button></div><div class="safety" id="checkoutSafety"><b>🛡️ Meet smart</b>Choose a public, well-lit location and keep chat and payment in YardBids.</div></section>
+    <section id="payment" class="screen"><header class="top"><button class="back" onclick="showScreen('checkout')">←</button><div class="logo">Payment <b>method</b></div><span></span></header><div class="heading"><h1>How would you like to pay?</h1><p>Your payment details are encrypted and never shared with the seller.</p></div><button class="account-action" onclick="choosePayment('Visa ·•••• 4408')">💳 Visa ·•••• 4408<small>Expires 09/29</small></button><button class="account-action" onclick="choosePayment('Apple Pay')"> Apple Pay<small>Pay quickly with your saved wallet.</small></button><button class="account-action" onclick="toast('Adding a new card is next in the full app')">＋ Add a new card<small>Use a debit or credit card.</small></button></section>
+    <section id="complete" class="screen"><div class="success"><div class="check">✓</div><h1 id="completeTitle">Payment complete</h1><p id="completeMessage">You and Maya can now choose a public YardBids Safe Meetup location.</p><button class="primary wide" id="completeAction" onclick="showScreen('meetup')">Choose a safe meetup</button></div></section>
+    <section id="meetup" class="screen"><header class="top"><button class="back" onclick="showScreen('complete')">←</button><div class="logo">Safe <b>Meetup</b></div><span></span></header><div class="heading"><h1>Pick a public spot</h1><p>Both people will see the selected place after confirmation.</p></div><div class="map" aria-label="Map showing two public meetup suggestions"><button class="pin one" aria-label="Central Library"><span>📚</span></button><button class="pin two" aria-label="Market Square"><span>🛍</span></button></div><button class="meetup selected" onclick="selectMeetup(this,'Central Library exchange zone')"><span class="icon">📚</span><span><b>Central Library exchange zone</b><small>0.6 mi · Open until 8 PM · Well-lit entrance</small></span></button><button class="meetup" onclick="selectMeetup(this,'Market Square customer-service entrance')"><span class="icon">🛍</span><span><b>Market Square customer-service entrance</b><small>1.1 mi · Open until 10 PM · Security cameras</small></span></button><div class="form"><button class="primary wide" onclick="confirmMeetup()">Confirm meetup spot</button></div></section>
+    <section id="schedule" class="screen"><header class="top"><button class="back" onclick="showScreen('meetup')">←</button><div class="logo">Set a <b>time</b></div><span></span></header><div class="heading"><h1>When should you meet?</h1><p>Pick a public, daytime time that works for both people.</p></div><div class="handoff-card"><span class="status-pill">SAFE MEETUP</span><h2 id="scheduleLocation">Central Library exchange zone</h2><p>We’ll send the suggested time to Maya in your YardBids chat.</p></div><div class="form"><div class="field">Today<div class="choice" id="meetup-time"><button type="button" class="selected" onclick="selectChoice('meetup-time',this)">5:30 PM</button><button type="button" onclick="selectChoice('meetup-time',this)">6:00 PM</button><button type="button" onclick="selectChoice('meetup-time',this)">6:30 PM</button></div></div><button class="primary wide" onclick="schedulePickup()">Send time suggestion</button></div><div class="safety"><b>🛡️ Meet in public</b>Use the in-app chat to adjust the time. Don’t share a home address.</div></section>
+    <section id="handoff" class="screen"><header class="top"><button class="back" onclick="showScreen('inbox')">←</button><div class="logo">Your <b>handoff</b></div><span></span></header><div class="handoff-card"><span class="status-pill">● MEETUP CONFIRMED</span><h2 id="handoffLocation">Central Library exchange zone</h2><p id="handoffTime">Today at 5:30 PM · Maya will meet you at this public location.</p></div><div class="heading" style="padding-top:24px"><h1 style="font-size:22px">Ready to exchange?</h1><p>Only confirm once you have the item and it matches the listing.</p></div><div class="form"><button class="ghost wide" style="margin-bottom:12px" onclick="showScreen('conversation')">Message Maya</button><button class="primary wide" onclick="showScreen('rating')">Confirm pickup complete</button></div><div class="safety"><b>🛡️ Something not right?</b>Don’t confirm pickup. Open a problem report before funds are released.<button class="ghost" style="margin-top:10px" onclick="showScreen('report')">Report a problem</button></div></section>
+    <section id="report" class="screen"><header class="top"><button class="back" onclick="showScreen('handoff')">←</button><div class="logo">Report a <b>problem</b></div><span></span></header><div class="heading"><h1>We’ll help sort this out</h1><p>Your payment stays on hold while YardBids reviews the issue.</p></div><button class="report-option" onclick="selectReport(this)">Item was not as described</button><button class="report-option" onclick="selectReport(this)">Seller did not show up</button><button class="report-option" onclick="selectReport(this)">I felt unsafe or uncomfortable</button><button class="report-option" onclick="selectReport(this)">Something else happened</button><textarea class="report-note" rows="4" placeholder="Tell us what happened (optional)"></textarea><div class="form"><button class="primary wide" onclick="submitReport()">Send report</button></div><div class="safety"><b>🛡️ You’re protected</b>Do not meet again if you felt unsafe. YardBids will keep the transaction record and review your report.</div></section>
+    <section id="rating" class="screen"><header class="top"><button class="back" onclick="showScreen('handoff')">←</button><div class="logo">Rate your <b>experience</b></div><span></span></header><div class="success" style="padding-bottom:20px"><div class="avatar" style="margin:auto">M</div><h1 style="margin-top:16px">How was Maya?</h1><p>Your rating helps the YardBids community buy and sell with confidence.</p><div class="stars" id="stars"><button onclick="setStars(1)">★</button><button onclick="setStars(2)">★</button><button onclick="setStars(3)">★</button><button onclick="setStars(4)">★</button><button onclick="setStars(5)">★</button></div></div><div class="rating-choice"><button onclick="selectRating(this)">Item as described</button><button onclick="selectRating(this)">Easy communication</button><button onclick="selectRating(this)">Safe meetup</button></div><div class="form"><button class="primary wide" onclick="submitRating()">Submit rating</button></div></section>
+    <section id="shipping" class="screen"><header class="top"><button class="back" onclick="showScreen('inbox')">←</button><div class="logo">Shipping <b>order</b></div><span></span></header><div class="handoff-card"><span class="status-pill">● LABEL CREATED</span><h2>Mid-century floor lamp</h2><p>Maya has a prepaid YardBids shipping label. Expected delivery: 2–4 business days after drop-off.</p></div><div class="heading" style="padding-top:24px"><h1 style="font-size:22px">Delivery updates</h1><p>Tracking will update here as the package moves.</p></div><div class="tracking"><div class="tracking-step active"><b>Payment confirmed</b><small>Today · Your payment is protected.</small></div><div class="tracking-step active"><b>Prepaid label created</b><small>Seller can now drop off the package.</small></div><div class="tracking-step"><b>Carrier received package</b><small>Waiting for first carrier scan.</small></div><div class="tracking-step"><b>Delivered</b><small>Confirm after the lamp arrives.</small></div></div><div class="form"><button class="ghost wide" onclick="showScreen('conversation')">Message Maya</button></div></section>
+    <section id="inbox" class="screen"><header class="top"><div class="logo">Your <b>Inbox</b></div><button class="ghost">Filter</button></header><div class="heading"><h1>Messages & orders</h1><p>Keep every handoff organized in one place.</p></div><button class="order" id="primaryOrder" onclick="showScreen('meetup')"><div class="thumb"></div><span><b>Maya R. · Mid-century floor lamp</b><p id="primaryOrderStatus">Payment received · Choose a safe meetup</p></span></button><button class="order" onclick="showScreen('conversation')"><div class="avatar" style="width:53px;height:53px;font-size:16px">J</div><span><b>Jordan P.</b><p>Is the kitchen bundle still available?</p></span></button></section>
+    <section id="conversation" class="screen"><header class="top"><button class="back" onclick="showScreen('inbox')">←</button><div style="text-align:center"><b>Maya R.</b><br><small class="verified">✓ Verified seller</small></div><button class="ghost" onclick="toast('You can report or block a member from their profile')">•••</button></header><div class="safety" style="margin-top:5px"><b>🛡️ Keep it in YardBids</b>Messages are recorded to help protect both people.</div><div class="chat" style="margin:10px 20px"><div class="msg"><b>Maya:</b> Hi! Thanks for your interest in the lamp.</div><div class="msg"><b>You:</b> Great, I’m looking forward to it.</div><div id="directMessages"></div><div class="chat-compose"><input id="directInput" placeholder="Write a message…" onkeydown="if(event.key==='Enter')sendDirect()"><button onclick="sendDirect()">Send</button></div></div></section>
+    <section id="watchlist" class="screen"><header class="top"><button class="back" onclick="showScreen('home')">←</button><div class="logo">Your <b>watchlist</b></div><span></span></header><div class="watch-head"><div><h1>Keep an eye on it</h1><p style="margin:4px 0;color:var(--muted);font-size:13px">We’ll remind you before an auction ends.</p></div></div><article class="watch-card"><div class="thumb"></div><div style="flex:1"><h3>Mid-century floor lamp</h3><p>Current bid: <b>$18.00</b> · 12 bidders</p><p class="ending">● Ends in 02:14</p></div><button class="round" onclick="showScreen('auction')">→</button></article><article class="watch-card"><div class="mini-photo" style="width:76px;height:76px;background:linear-gradient(135deg,#bd927b,#5b705c)"></div><div style="flex:1"><h3>Vintage plant stand</h3><p>Starting bid: <b>$5.00</b></p><p class="ending">Starts in 8 minutes</p></div><button class="round" onclick="toast('Reminder set for this auction')">🔔</button></article><div class="reminder"><b>🔔 Auction reminders are on</b>You’ll get alerts 10 minutes before watched auctions end.</div></section>
+    <section id="profile" class="screen"><header class="top"><button class="back" onclick="showScreen('home')">←</button><div class="logo">Seller <b>profile</b></div><span></span></header><div class="profile-head"><div class="avatar">M</div><div><h1>Maya R. <span class="verified">✓</span></h1><p>Verified seller · Member since 2024</p><p>★ 4.9 from 36 reviews</p></div></div><div class="form" style="padding-top:0"><button class="ghost wide" id="followMaya" onclick="followSeller()">＋ Follow Maya</button><button class="ghost wide" style="margin-top:9px" onclick="showScreen('reviews')">★ Read 36 reviews</button></div><div class="profile-stats"><div><b>21</b>Sold</div><div><b>126</b>Followers</div><div><b>10 min</b>Reply time</div></div><div class="heading" style="padding-top:25px"><h1 style="font-size:20px">Maya’s live listings</h1><p>Public profile details only—never home addresses.</p></div><div class="list"><button class="list-item" onclick="showScreen('auction')"><div class="mini-photo" style="background:linear-gradient(135deg,#e8c982,#6a4e31)"></div><span><b>Mid-century floor lamp</b><small>Live now · Current bid $18</small></span></button></div></section>
+    <section id="reviews" class="screen"><header class="top"><button class="back" onclick="showScreen('profile')">←</button><div class="logo">Maya’s <b>reviews</b></div><span></span></header><div class="heading"><h1>★ 4.9 out of 5</h1><p>Based on 36 completed YardBids transactions.</p></div><div class="list"><div class="chat"><b>Jordan P. · ★★★★★</b><div class="msg">“Lamp was exactly as described and Maya was easy to meet with. Great experience.”</div><small class="text-muted">Floor lamp · 2 weeks ago</small></div><div style="height:10px"></div><div class="chat"><b>Casey R. · ★★★★★</b><div class="msg">“Quick response, clear photos, and a smooth pickup at a public location.”</div><small class="text-muted">Kitchen items · 1 month ago</small></div><div style="height:10px"></div><div class="chat"><b>Priya S. · ★★★★☆</b><div class="msg">“Item was in great shape. Pickup timing changed once, but Maya let me know right away.”</div><small class="text-muted">Bookshelf · 2 months ago</small></div></div></section>
+    <section id="me" class="screen"><header class="top"><div class="logo">My <b>YardBids</b></div><button class="ghost" onclick="toast('Settings are next in the full app')">⚙</button></header><div class="profile-head"><div class="avatar">T</div><div><h1>Taylor</h1><p>Phone verified · Member since 2026</p><p>★ New to YardBids</p></div></div><div class="account-banner"><b>Get verified to build trust</b>Verified buyers and sellers get a badge and can access higher-value auctions.</div><button class="account-action" onclick="showScreen('verify')">🛡️ Verify your identity<small>Usually takes just a few minutes.</small></button><button class="account-action" onclick="showScreen('watchlist')">♡ Your watchlist<small>2 auctions saved and ready to follow.</small></button><button class="account-action" onclick="showScreen('dashboard')">＋ Seller dashboard<small>Manage listings, handoffs, and earnings.</small></button><button class="account-action" onclick="showScreen('safetycenter')">🛡️ Safety & support<small>Meet safely, report a problem, or get help.</small></button></section>
+    <section id="safetycenter" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">←</button><div class="logo">Safety & <b>support</b></div><span></span></header><div class="heading"><h1>Buy and sell with confidence</h1><p>YardBids is designed to keep every transaction clear, public, and protected.</p></div><div class="list"><button class="account-action" style="margin:0 0 10px;width:100%" onclick="showScreen('meetup')">📍 Find a Safe Meetup spot<small>Choose a well-lit public location for local pickup.</small></button><button class="account-action" style="margin:0 0 10px;width:100%" onclick="showScreen('report')">⚠ Report a problem<small>Keep payment on hold while YardBids reviews an issue.</small></button><button class="account-action" style="margin:0 0 10px;width:100%" onclick="toast('Help request sent — a YardBids support guide will respond.')">💬 Contact support<small>Get help with an order, payment, or account.</small></button><button class="account-action" style="margin:0;width:100%" onclick="showScreen('feedback')">✦ Share feedback<small>Help shape YardBids before launch.</small></button></div><div class="safety"><b>Meet smart</b>Keep payments and messages in YardBids, choose public locations, and do not confirm a pickup until you have the item.</div></section>
+    <section id="feedback" class="screen"><header class="top"><button class="back" onclick="showScreen('safetycenter')">←</button><div class="logo">Share <b>feedback</b></div><span></span></header><div class="heading"><h1>Help build YardBids</h1><p>Your feedback helps make auctions safer, simpler, and more fun for everyone.</p></div><div class="form"><div class="field">How is YardBids so far?<div class="choice" id="feedback-rating"><button type="button" onclick="selectChoice('feedback-rating',this)">Love it</button><button type="button" onclick="selectChoice('feedback-rating',this)">Good</button><button type="button" onclick="selectChoice('feedback-rating',this)">Needs work</button></div></div><label class="field">What should we improve?<textarea id="feedbackText" rows="5" class="report-note" style="width:100%;margin:0" placeholder="Tell us what you like, what feels confusing, or what you want next."></textarea></label><button class="primary wide" onclick="submitFeedback()">Send feedback</button></div></section>
+    <section id="dashboard" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">←</button><div class="logo">Seller <b>dashboard</b></div><button class="ghost" onclick="showScreen('sell')">＋ List</button></header><div class="heading"><h1>Good evening, Taylor</h1><p>Here’s what is happening with your items.</p></div><div class="seller-stats"><div><b id="liveCount">1</b>Live now</div><div><b>3</b>Watching</div><div><b>1</b>Pending</div></div><button class="payout" style="border:0;width:calc(100% - 40px);text-align:left" onclick="showScreen('payout')"><small>AVAILABLE TO TRANSFER</small><b>$24.00</b><small>From one completed pickup · Tap to transfer</small></button><div class="list"><h3>Your newest listing</h3><button class="list-item" onclick="showScreen('auction')"><div class="mini-photo" id="dashboardPhoto" style="background:linear-gradient(135deg,#e8c982,#6a4e31)"></div><span><b id="dashboardTitle">Mid-century floor lamp</b><small id="dashboardMeta">Current bid $18 · 12 bidders · 02:14 left</small></span></button><button class="ghost wide" style="margin:0 0 16px" onclick="showScreen('manage')">Manage this auction</button><h3 style="margin-top:20px">Needs your attention</h3><button class="list-item" onclick="showScreen('handoff')"><div class="avatar" style="width:54px;height:54px;font-size:16px">M</div><span><b>Confirm lamp handoff</b><small>Buyer selected a Safe Meetup location.</small></span></button></div></section>
+    <section id="manage" class="screen"><header class="top"><button class="back" onclick="showScreen('dashboard')">←</button><div class="logo">Manage <b>auction</b></div><span></span></header><div class="heading"><h1 id="manageTitle">Mid-century floor lamp</h1><p id="manageStatus">Live now · 12 bidders · 02:14 remaining</p></div><div class="seller-stats"><div><b>$18</b>Current bid</div><div><b>12</b>Bidders</div><div><b>3</b>Watching</div></div><div class="form"><button class="ghost wide" style="margin-bottom:10px" onclick="showScreen('sell')">Edit listing details</button><button class="ghost wide" style="margin-bottom:10px" onclick="showScreen('shippinglabel')">Create shipping label</button><button class="ghost wide" style="margin-bottom:10px" id="pauseAuction" onclick="toggleAuctionPause()">Pause auction</button><button class="ghost wide" onclick="cancelAuction()">Cancel auction</button></div><div class="safety"><b>Seller reminder</b>Do not cancel a listing after it has bids unless there is a genuine issue. YardBids keeps a record of changes for buyer trust.</div></section>
+    <section id="shippinglabel" class="screen"><header class="top"><button class="back" onclick="showScreen('dashboard')">←</button><div class="logo">Ship an <b>order</b></div><span></span></header><div class="heading"><h1>Mid-century floor lamp</h1><p>Buyer payment is confirmed. Pack the item and use the prepaid label.</p></div><div class="checkout-card"><div class="line"><span>Buyer</span><b>Jordan P.</b></div><div class="line"><span>Delivery</span><b>Standard shipping</b></div><div class="line"><span>Label cost</span><b>Already paid</b></div><div class="line total"><span>Payout after delivery</span><b>$18.00</b></div></div><div class="form"><button class="primary wide" onclick="createLabel()">Create prepaid label</button><button class="ghost wide" style="margin-top:10px" onclick="showScreen('conversation')">Message buyer</button></div><div class="safety"><b>Pack it safely</b>Use sturdy packaging, keep the receipt, and drop the parcel off before the label expiry date.</div></section>
+    <section id="payout" class="screen"><header class="top"><button class="back" onclick="showScreen('dashboard')">←</button><div class="logo">Your <b>earnings</b></div><span></span></header><div class="heading"><h1>Ready to transfer</h1><p>Funds are available after a completed pickup or confirmed delivery.</p></div><div class="checkout-card"><div class="line"><span>Available now</span><b>$24.00</b></div><div class="line"><span>Pending</span><b>$18.00</b></div><div class="line total"><span>Transfer amount</span><b>$24.00</b></div></div><div class="form"><label class="field">Transfer to<button class="account-action" style="margin:0;width:100%" type="button" onclick="toast('Bank account settings are next in the full app')">🏦 Bank account ·•••• 0182<small>Standard transfer · 1–3 business days</small></button></label><button class="primary wide" onclick="requestPayout()">Transfer $24.00</button></div><div class="safety"><b>🛡️ Payout protection</b>YardBids releases funds only after the item is confirmed as picked up or delivered.</div></section>
+    <section id="verify" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">←</button><div class="logo">Get <b>verified</b></div><span></span></header><div class="heading"><h1>Build trust in your community</h1><p>Verification helps protect buyers and sellers. Your private details are never shown on your profile.</p></div><div class="verify-steps"><div class="verify-step"><div class="step-icon">✓</div><span><b>Phone number confirmed</b><br><small>Your number is private.</small></span></div><div class="verify-step"><div class="step-icon">2</div><span><b>Verify your identity</b><br><small>Confirm a government-issued ID securely.</small></span></div><div class="verify-step"><div class="step-icon">3</div><span><b>Earn your verified badge</b><br><small>Visible to other YardBids members.</small></span></div></div><div class="form"><button class="primary wide" onclick="finishVerification()">Start secure verification</button></div><div class="safety"><b>🛡️ Privacy first</b>Your ID is used only for safety checks and is never shared with buyers or sellers.</div></section>
+    <nav class="nav"><button onclick="showScreen('home')"><strong>⌂</strong>Home</button><button onclick="showScreen('discover')"><strong>⌕</strong>Discover</button><button class="sell" onclick="showScreen('sell')"><strong>＋</strong>Sell</button><button onclick="showScreen('inbox')"><strong>◌</strong>Inbox</button><button onclick="showScreen('me')"><strong>☺</strong>Profile</button></nav><div class="toast" id="toast"></div>
+  </div>
+  <script>
+    function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+    function toast(text){const t=document.getElementById('toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+    function selectDelivery(button){button.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));button.classList.add('selected')}
+    function selectChoice(id,button){document.querySelectorAll('#'+id+' button').forEach(b=>b.classList.remove('selected'));button.classList.add('selected')}
+    let currentBid=18, bidders=12, chatMessages=8, timerSeconds=134, bidTurns=0, deliveryMode='pickup';
+    function placeBid(){currentBid+=2;bidders+=1;chatMessages+=1;bidTurns+=1;document.getElementById('auctionAmount').textContent='$'+currentBid+'.00';document.getElementById('nextBid').textContent='Next bid: $'+(currentBid+2);document.getElementById('bidButton').textContent='Bid $'+(currentBid+2)+'.00';document.getElementById('bidderCount').textContent=bidders;document.getElementById('chatCount').textContent=chatMessages;document.getElementById('newBidMessage').innerHTML='<div class="msg"><b>You:</b> $'+currentBid+' bid placed 🎉</div>';if(bidTurns>=3){document.getElementById('timerText').textContent='00:00';document.getElementById('bidButton').textContent='Auction ended';document.getElementById('bidButton').disabled=true;renderCheckout();toast('You won the auction! 🎉');setTimeout(()=>showScreen('checkout'),850)}else{toast('You’re in the lead!')}}
+    setInterval(()=>{if(timerSeconds>0){timerSeconds--;const m=String(Math.floor(timerSeconds/60)).padStart(2,'0'),s=String(timerSeconds%60).padStart(2,'0');const timer=document.getElementById('timerText');if(timer)timer.textContent=m+':'+s}},1000);
+    function postListing(event){event.preventDefault();const title=event.target.querySelector('input[placeholder^="e.g."]').value||'Your item';const price=event.target.querySelector('input[type="number"]').value||'0';const duration=document.querySelector('#length .selected').textContent,condition=document.getElementById('conditionSelect').value,description=document.getElementById('listingDescription').value.trim();document.getElementById('previewTitle').textContent=title;document.getElementById('previewPrice').textContent='$'+price+'.00';document.getElementById('previewAuction').textContent=duration+' auction';document.getElementById('previewDetails').textContent=condition+' condition';document.getElementById('previewDescription').textContent=description;showScreen('preview')}
+    function publishListing(){const title=document.getElementById('previewTitle').textContent,price=document.getElementById('previewPrice').textContent,photo=document.getElementById('previewImage').style.backgroundImage;saveListing({title,price,photo});applySavedListing();toast('Your auction is live!');setTimeout(()=>showScreen('dashboard'),700)}
+    function finishVerification(){toast('Verification started securely');setTimeout(()=>{toast('You’re verified! ✓');showScreen('me')},850)}
+    function selectMeetup(button,name){document.querySelectorAll('.meetup').forEach(b=>b.classList.remove('selected'));button.classList.add('selected');window.meetupName=name}
+    function confirmMeetup(){const spot=document.querySelector('.meetup.selected b').textContent;document.getElementById('scheduleLocation').textContent=spot;document.getElementById('handoffLocation').textContent=spot;showScreen('schedule')}
+    function schedulePickup(){const time=document.querySelector('#meetup-time .selected').textContent;document.getElementById('handoffTime').textContent='Today at '+time+' · Maya will meet you at this public location.';toast('Time suggestion sent to Maya!');setTimeout(()=>showScreen('handoff'),700)}
+    function searchItems(){const value=document.getElementById('searchBox').value.trim(),results=document.getElementById('searchResults');if(!value){results.style.display='none';return}results.style.display='block';document.getElementById('searchHeading').textContent='Results for “'+value+'”';document.getElementById('searchItemTitle').textContent=value+' · live auction'}
+    function watchItem(){toast('Added to your watchlist');setTimeout(()=>showScreen('watchlist'),550)}
+    function setStars(count){document.querySelectorAll('#stars button').forEach((star,index)=>star.classList.toggle('selected',index<count))}
+    function selectRating(button){button.classList.toggle('selected')}
+    function submitRating(){toast('Thanks—your rating was shared!');setTimeout(()=>showScreen('home'),800)}
+    function selectReport(button){document.querySelectorAll('.report-option').forEach(item=>item.classList.remove('selected'));button.classList.add('selected')}
+    function submitReport(){toast('Report received — payment is on hold');setTimeout(()=>showScreen('inbox'),900)}
+    function selectAuctionDelivery(button,mode){selectDelivery(button);deliveryMode=mode}
+    function selectCheckoutDelivery(button,mode){selectDelivery(button);deliveryMode='pickup';renderCheckout()}
+    function renderCheckout(){const shipping=deliveryMode==='shipping',total=shipping?'28.48':'19.49';document.getElementById('deliveryLine').textContent=shipping?'Shipping':'Local pickup';document.getElementById('deliveryCost').textContent=shipping?'$8.99':'Free';document.getElementById('checkoutTotal').textContent='$'+total;document.getElementById('checkoutHeading').innerHTML=shipping?'<h1 style="font-size:20px">Delivery details</h1><p>Your shipping address stays private from the seller.</p>':'<h1 style="font-size:20px">Choose a safe handoff</h1><p>Select after payment—exact addresses stay private.</p>';document.getElementById('checkoutOptions').innerHTML=shipping?'<button class="primary wide" onclick="showScreen(\'complete\')">Pay $'+total+' securely</button>':'<div class="delivery"><button class="selected" onclick="selectCheckoutDelivery(this,\'safe\')">🛡️ YardBids Safe Meetup<br><small>Public place nearby</small></button><button onclick="selectCheckoutDelivery(this,\'pickup\')">📍 Seller pickup<br><small>Details after payment</small></button></div><button class="primary wide" onclick="showScreen(\'complete\')">Pay $'+total+' securely</button>';document.getElementById('checkoutSafety').innerHTML=shipping?'<b>📦 Shipping protected</b>The seller receives a prepaid label after payment; tracking keeps both sides updated.':'<b>🛡️ Meet smart</b>Choose a public, well-lit location and keep chat and payment in YardBids.'}
+    placeBid=function(){currentBid+=2;bidders+=1;chatMessages+=1;bidTurns+=1;document.getElementById('auctionAmount').textContent='$'+currentBid+'.00';document.getElementById('nextBid').textContent='Next bid: $'+(currentBid+2);document.getElementById('bidButton').textContent='Bid $'+(currentBid+2)+'.00';document.getElementById('bidderCount').textContent=bidders;document.getElementById('chatCount').textContent=chatMessages;document.getElementById('newBidMessage').innerHTML='<div class="msg"><b>You:</b> $'+currentBid+' bid placed 🎉</div>';if(bidTurns>=3){document.getElementById('timerText').textContent='00:00';document.getElementById('bidButton').textContent='Auction ended';document.getElementById('bidButton').disabled=true;renderCheckout();toast('You won the auction! 🎉');setTimeout(()=>showScreen('checkout'),850)}else{toast('You’re in the lead!')}};
+    const setupCheckout=renderCheckout;
+    renderCheckout=function(){setupCheckout();document.querySelectorAll('#checkoutOptions .primary').forEach(button=>button.onclick=finishCheckout)};
+    function finishCheckout(){const shipping=deliveryMode==='shipping';document.getElementById('completeTitle').textContent=shipping?'Payment complete':'Payment complete';document.getElementById('completeMessage').textContent=shipping?'Maya will receive a prepaid shipping label. Track delivery and confirm when your lamp arrives.':'You and Maya can now choose a public YardBids Safe Meetup location.';const action=document.getElementById('completeAction');action.textContent=shipping?'View shipping order':'Choose a safe meetup';action.onclick=shipping?()=>showScreen('inbox'):()=>showScreen('meetup');showScreen('complete')}
+    const originalFinishCheckout=finishCheckout;
+    finishCheckout=function(){const shipping=deliveryMode==='shipping';const order=document.getElementById('primaryOrder'),status=document.getElementById('primaryOrderStatus');if(shipping){status.textContent='Shipping label created · Track delivery';order.onclick=()=>showScreen('shipping')}else{status.textContent='Payment received · Choose a safe meetup';order.onclick=()=>showScreen('meetup')}originalFinishCheckout()}
+    function sendChat(){const input=document.getElementById('chatInput'),text=input.value.trim();if(!text)return;document.getElementById('chatMessages').insertAdjacentHTML('beforeend','<div class="msg"><b>You:</b> '+text.replace(/[<>&]/g,'')+'</div>');chatMessages+=1;document.getElementById('chatCount').textContent=chatMessages;input.value=''}
+    async function shareAuction(){const details={title:'YardBids: Mid-century floor lamp',text:'Join me in this live YardBids auction!',url:location.href};try{if(navigator.share){await navigator.share(details);toast('Auction shared!')}else if(navigator.clipboard){await navigator.clipboard.writeText(location.href);toast('Auction link copied — invite a friend to bid!')}else{toast('Share this auction with friends!')}}catch(error){if(error.name!=='AbortError')toast('Share link is ready to copy from the address bar.')}}
+    function sendDirect(){const input=document.getElementById('directInput'),text=input.value.trim();if(!text)return;document.getElementById('directMessages').insertAdjacentHTML('beforeend','<div class="msg"><b>You:</b> '+text.replace(/[<>&]/g,'')+'</div>');input.value=''}
+    function previewPhoto(input){const file=input.files&&input.files[0];if(!file)return;const reader=new FileReader();reader.onload=event=>{const image=event.target.result,box=document.getElementById('uploadBox'),preview=document.getElementById('previewImage');box.style.backgroundImage='linear-gradient(#15243a88,#15243a88),url('+image+')';box.style.backgroundSize='cover';box.style.backgroundPosition='center';box.style.color='#fff';box.innerHTML='✓ Photo selected<span style="color:#fff">Tap to choose a different photo.</span>';preview.style.backgroundImage='url('+image+')';preview.style.backgroundSize='cover';preview.style.backgroundPosition='center'};reader.readAsDataURL(file)}
+    function previewMedia(input){const file=input.files&&input.files[0];if(!file)return;if(!file.type.startsWith('video/')){previewPhoto(input);return}const url=URL.createObjectURL(file),box=document.getElementById('uploadBox'),preview=document.getElementById('previewImage');box.style.backgroundImage='linear-gradient(#15243a88,#15243a88)';box.style.color='#fff';box.innerHTML='✓ Short video selected<span style="color:#fff">Tap to choose a different photo or video.</span>';preview.style.backgroundImage='none';preview.innerHTML='<video src="'+url+'" controls muted playsinline style="width:100%;height:100%;object-fit:cover"></video><span class="live" style="background:var(--teal)">VIDEO PREVIEW</span>'}
+    function rsvpLiveEvent(){toast('Reminder set for Thursday Night Finds!')}
+    function followSeller(){const button=document.getElementById('followMaya'),following=button.textContent.includes('Following');button.textContent=following?'＋ Follow Maya':'✓ Following Maya';toast(following?'You stopped following Maya.':'You’ll get alerts when Maya posts an auction.')}
+    function saveLocation(){const value=document.getElementById('locationInput').value.trim();if(!value){toast('Enter a city or ZIP code first.');return}document.getElementById('homeLocation').textContent='📍 '+value;document.getElementById('discoverLocation').textContent='📍 '+value;toast('Location updated!');setTimeout(()=>showScreen('home'),550)}
+    function choosePayment(method){document.getElementById('paymentLabel').textContent=method+' ›';toast('Payment method updated');setTimeout(()=>showScreen('checkout'),500)}
+    function requestPayout(){toast('Your $24.00 transfer is on its way!');setTimeout(()=>showScreen('dashboard'),750)}
+    function openMayaProfile(event){if(event)event.stopPropagation();showScreen('profile')}
+    function showCategory(category){const clean=category.replace(/^[^A-Za-z]+/,'');document.getElementById('categoryTitle').textContent=clean;document.getElementById('categoryHeading').textContent=clean+' near you';document.getElementById('categoryItem').textContent=clean+' find · live auction';showScreen('categoryresults')}
+    function applyFilters(){const delivery=document.querySelector('#filter-delivery .selected').textContent,timing=document.querySelector('#filter-timing .selected').textContent;document.getElementById('discoverFilter').textContent=delivery+' · '+timing+' auctions';showScreen('discover');toast('Filters applied')}
+    function saveListing(listing){try{localStorage.setItem('yardbidsNewestListing',JSON.stringify(listing))}catch(error){}}
+    function applySavedListing(){try{const saved=JSON.parse(localStorage.getItem('yardbidsNewestListing'));if(!saved)return;document.getElementById('dashboardTitle').textContent=saved.title;document.getElementById('dashboardMeta').textContent='Starting bid '+saved.price+' · Live now';if(saved.photo)document.getElementById('dashboardPhoto').style.backgroundImage=saved.photo}catch(error){}}
+    const baseShowScreen=showScreen;
+    showScreen=function(id){baseShowScreen(id);if(id==='bidhistory')document.getElementById('historyAmount').textContent='$'+currentBid+'.00'}
+    applySavedListing();
+    document.querySelectorAll('.category').forEach(button=>button.onclick=()=>showCategory(button.textContent.trim()));
+    const originalApplySavedListing=applySavedListing;
+    applySavedListing=function(){originalApplySavedListing();try{const saved=JSON.parse(localStorage.getItem('yardbidsNewestListing'));if(saved)document.getElementById('manageTitle').textContent=saved.title}catch(error){}};
+    applySavedListing();
+    function toggleAuctionPause(){const button=document.getElementById('pauseAuction'),paused=button.textContent.includes('Resume');button.textContent=paused?'Pause auction':'Resume auction';document.getElementById('manageStatus').textContent=paused?'Live now · 12 bidders · 02:14 remaining':'Paused · Buyers cannot place bids';toast(paused?'Auction resumed':'Auction paused')}
+    function cancelAuction(){if(confirm('Cancel this auction? Current bidders will be notified.')){document.getElementById('manageStatus').textContent='Cancelled · No further bids accepted';toast('Auction cancelled')}}
+    function createLabel(){toast('Prepaid label created — ready to download!')}
+    function refreshBidViews(){document.getElementById('feedPrice').textContent='$'+currentBid+'.00';document.getElementById('feedBidders').textContent=bidders;document.getElementById('auctionAmount').textContent='$'+currentBid+'.00';document.getElementById('nextBid').textContent='Next bid: $'+(currentBid+2);document.getElementById('bidderCount').textContent=bidders;document.getElementById('chatCount').textContent=chatMessages;document.getElementById('bidButton').textContent=bidTurns>=3?'Auction ended':'Bid $'+(currentBid+2)+'.00';document.getElementById('bidButton').disabled=bidTurns>=3}
+    function saveBidState(){try{localStorage.setItem('yardbidsBidState',JSON.stringify({currentBid,bidders,chatMessages,bidTurns}))}catch(error){}}
+    function restoreBidState(){try{const saved=JSON.parse(localStorage.getItem('yardbidsBidState'));if(!saved)return;currentBid=saved.currentBid||currentBid;bidders=saved.bidders||bidders;chatMessages=saved.chatMessages||chatMessages;bidTurns=saved.bidTurns||bidTurns;refreshBidViews()}catch(error){}}
+    const originalPlaceBid=placeBid;
+    placeBid=function(){originalPlaceBid();refreshBidViews();saveBidState()}
+    window.addEventListener('storage',event=>{if(event.key==='yardbidsBidState')restoreBidState()});
+    restoreBidState();
+function submitFeedback(){
+  const rating = document.querySelector('#feedback-rating .selected');
+  const text = document.getElementById('feedbackText').value.trim();
+  try {
+    localStorage.setItem('yardbidsFeedback', JSON.stringify({
+      rating: rating ? rating.textContent.trim() : '',
+      text,
+      createdAt: new Date().toISOString()
+    }));
+  } catch (error) {}
+  toast('Thanks — your feedback helps shape YardBids!');
+  setTimeout(() => showScreen('home'), 700);
+}
+function saveSearchAlert(){
+  const term = document.getElementById('savedSearchTerm').value.trim();
+  const category = document.getElementById('savedSearchCategory').value;
+  const delivery = document.querySelector('#saved-search-delivery .selected').textContent;
+  if(!term){toast('Add an item to save your alert.');return}
+  const details = {term,category,delivery,createdAt:new Date().toISOString()};
+  try{localStorage.setItem('yardbidsSavedSearch',JSON.stringify(details))}catch(error){}
+  document.getElementById('savedSearchStatus').innerHTML='<b>Alert active: '+term+'</b><div class="msg">'+category+' · '+delivery+'</div>';
+  toast('Search alert saved!');
+}
+const savedSearchButton=document.createElement('button');
+savedSearchButton.className='account-action';
+savedSearchButton.innerHTML='Saved search alerts<small>Get notified when the items you want go live.</small>';
+savedSearchButton.onclick=()=>showScreen('savedsearch');
+document.getElementById('me').insertBefore(savedSearchButton,document.getElementById('me').lastElementChild);
+function toggleSetting(button){
+  const on=!button.classList.contains('selected');
+  button.classList.toggle('selected',on);
+  button.textContent=on?'On':'Off';
+}
+function saveSettings(){
+  const toggles=[...document.querySelectorAll('#settings .setting-toggle')].map(button=>button.classList.contains('selected'));
+  try{localStorage.setItem('yardbidsSettings',JSON.stringify({outbid:toggles[0],ending:toggles[1],messages:toggles[2]}))}catch(error){}
+  toast('Your settings have been saved.');
+  setTimeout(()=>showScreen('me'),600);
+}
+const settingsButton=document.querySelector('#me header .ghost');
+if(settingsButton){settingsButton.onclick=()=>showScreen('settings')}
+async function copyInviteCode(){
+  try{await navigator.clipboard.writeText('YARD-7H42');toast('Invite code copied!')}
+  catch(error){toast('Your invite code is YARD-7H42')}
+}
+async function shareInvite(){
+  const details={title:'Join me on YardBids',text:'Find, bid on, and safely pick up great local items. Use my invite code: YARD-7H42',url:location.href};
+  try{if(navigator.share){await navigator.share(details);toast('Invite shared!')}else{await copyInviteCode()}}
+  catch(error){if(error.name!=='AbortError')copyInviteCode()}
+}
+const inviteButton=document.createElement('button');
+inviteButton.className='account-action';
+inviteButton.innerHTML='Invite neighbors<small>Share YardBids and help grow your local marketplace.</small>';
+inviteButton.onclick=()=>showScreen('invite');
+document.getElementById('me').appendChild(inviteButton);
+const ordersButton=document.createElement('button');
+ordersButton.className='account-action';
+ordersButton.innerHTML='Your orders<small>Track purchases, safe meetups, and shipping updates.</small>';
+ordersButton.onclick=()=>showScreen('orders');
+const safetyButton=[...document.querySelectorAll('#me .account-action')].find(button=>button.textContent.includes('Safety'));
+document.getElementById('me').insertBefore(ordersButton,safetyButton);
+function confirmBlockMember(){
+  try{localStorage.setItem('yardbidsBlockedMaya','true')}catch(error){}
+  toast('Maya has been blocked.');
+  setTimeout(()=>showScreen('inbox'),650);
+}
+const conversationMenu=document.querySelector('#conversation header .ghost');
+if(conversationMenu){conversationMenu.onclick=()=>showScreen('blockmember')}
+function verifyHandoffCode(){
+  const entered=document.getElementById('handoffCodeInput').value.replace(/\s/g,'');
+  if(entered!=='218406'){toast('That code does not match yet. Check with Maya.');return}
+  toast('Meetup code verified. Inspect the item before confirming pickup.');
+  setTimeout(()=>showScreen('handoff'),700);
+}
+const completePickupButton=[...document.querySelectorAll('#handoff .primary')].find(button=>button.textContent.includes('Confirm pickup'));
+if(completePickupButton){
+  const codeButton=document.createElement('button');
+  codeButton.className='ghost wide';
+  codeButton.style.marginBottom='12px';
+  codeButton.textContent='Verify meetup code';
+  codeButton.onclick=()=>showScreen('handoffcode');
+  completePickupButton.parentElement.insertBefore(codeButton,completePickupButton);
+}
+const followingButton=document.createElement('button');
+followingButton.className='account-action';
+followingButton.type='button';
+followingButton.innerHTML='Following feed<small>See new auctions from sellers you follow.</small>';
+followingButton.setAttribute('onclick',"showScreen('following')");
+followingButton.onclick=()=>showScreen('following');
+const watchlistButton=[...document.querySelectorAll('#me .account-action')].find(button=>button.textContent.includes('watchlist'));
+if(watchlistButton){watchlistButton.insertAdjacentElement('afterend',followingButton)}
+document.querySelectorAll('#following [data-open-screen]').forEach(item=>item.addEventListener('click',()=>showScreen(item.dataset.openScreen)));
+function openFollowingFeed(){
+  const feed=document.getElementById('following');
+  if(!feed){toast('Following feed is loading. Please try again.');return}
+  document.querySelectorAll('.screen').forEach(screen=>screen.classList.remove('active'));
+  feed.classList.add('active');
+  window.scrollTo(0,0);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const feed=document.getElementById('following');
+  const app=document.querySelector('.app');
+  const nav=document.querySelector('.app .nav');
+  if(feed&&app&&nav&&feed.parentElement!==app){app.insertBefore(feed,nav)}
+  const profileFollowButton=[...document.querySelectorAll('#me .account-action')].find(button=>button.textContent.includes('Following feed'));
+  if(profileFollowButton){profileFollowButton.onclick=openFollowingFeed;profileFollowButton.setAttribute('onclick','openFollowingFeed()')}
+  const sellerCard=document.querySelector('#following .list-item');
+  if(sellerCard){sellerCard.onclick=()=>showScreen('profile')}
+  const auctionButton=document.querySelector('#following .watch-card .round');
+  if(auctionButton){auctionButton.onclick=()=>showScreen('auction')}
+});
+function saveLocation(){
+  const value=document.getElementById('locationInput').value.trim();
+  if(!value){toast('Enter a city or ZIP code first.');return}
+  const selectedRadius=document.querySelector('#location-radius .selected');
+  const radius=selectedRadius?selectedRadius.textContent:'10 mi';
+  document.getElementById('homeLocation').textContent='Area: '+value;
+  document.getElementById('discoverLocation').textContent='Area: '+value;
+  try{localStorage.setItem('yardbidsArea',JSON.stringify({value,radius}))}catch(error){}
+  toast('Area set to '+radius+' around '+value+'!');
+  setTimeout(()=>showScreen('home'),550);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const locationForm=document.querySelector('#location .form');
+  if(locationForm&&!document.getElementById('location-radius')){
+    const radiusField=document.createElement('div');
+    radiusField.className='field';
+    radiusField.innerHTML='<span>Search radius</span><div class="choice" id="location-radius"><button type="button" onclick="selectChoice(\'location-radius\',this)">5 mi</button><button type="button" class="selected" onclick="selectChoice(\'location-radius\',this)">10 mi</button><button type="button" onclick="selectChoice(\'location-radius\',this)">25 mi</button></div>';
+    locationForm.insertBefore(radiusField,locationForm.querySelector('.primary'));
+  }
+});
+function postListing(event){
+  event.preventDefault();
+  const title=event.target.querySelector('input[placeholder^="e.g."]').value||'Your item';
+  const price=event.target.querySelector('input[type="number"]').value||'0';
+  const reserve=document.getElementById('reservePrice')?.value.trim();
+  const duration=document.querySelector('#length .selected').textContent;
+  const condition=document.getElementById('conditionSelect').value;
+  const description=document.getElementById('listingDescription').value.trim();
+  document.getElementById('previewTitle').textContent=title;
+  document.getElementById('previewPrice').textContent='$'+price+'.00';
+  document.getElementById('previewAuction').textContent=duration+' auction';
+  document.getElementById('previewDetails').textContent=condition+' condition'+(reserve?' · private reserve set':'');
+  document.getElementById('previewDescription').textContent=description;
+  try{localStorage.setItem('yardbidsDraftReserve',reserve||'')}catch(error){}
+  showScreen('preview');
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const sellForm=document.querySelector('#sell form');
+  const lengthControl=document.getElementById('length');
+  if(sellForm&&lengthControl&&!document.getElementById('reservePrice')){
+    const reserveField=document.createElement('label');
+    reserveField.className='field';
+    reserveField.innerHTML='Private reserve price (optional)<input id="reservePrice" type="number" min="1" placeholder="Minimum you will accept"><small style="color:var(--muted);font-weight:500">Buyers never see this number. The item only sells if bidding reaches it.</small>';
+    sellForm.insertBefore(reserveField,lengthControl.parentElement);
+  }
+});
+function saveAutoBid(){
+  const amount=Number(document.getElementById('autoBidAmount').value);
+  if(!amount||amount<20){toast('Enter a maximum of at least $20.');return}
+  try{localStorage.setItem('yardbidsAutoBid',String(amount))}catch(error){}
+  toast('Private max bid set at $'+amount.toFixed(2)+'.');
+  setTimeout(()=>showScreen('auction'),650);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const app=document.querySelector('.app');
+  const nav=document.querySelector('.app .nav');
+  if(app&&nav){document.querySelectorAll('body > .screen').forEach(screen=>app.insertBefore(screen,nav))}
+  const bidBox=document.querySelector('#auction .bid-box');
+  if(bidBox&&!document.getElementById('autoBidButton')){
+    const autoBidButton=document.createElement('button');
+    autoBidButton.id='autoBidButton';
+    autoBidButton.className='ghost wide';
+    autoBidButton.style.margin='0 0 12px';
+    autoBidButton.textContent='Set a private max bid';
+    autoBidButton.onclick=()=>showScreen('autobid');
+    bidBox.insertAdjacentElement('afterend',autoBidButton);
+  }
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  const payoutCard=document.querySelector('#dashboard .payout');
+  if(payoutCard&&!document.getElementById('earningsButton')){
+    const earningsButton=document.createElement('button');
+    earningsButton.id='earningsButton';
+    earningsButton.className='ghost';
+    earningsButton.style.cssText='margin:-10px 20px 18px;width:calc(100% - 40px)';
+    earningsButton.textContent='View payout details';
+    earningsButton.onclick=()=>showScreen('earnings');
+    payoutCard.insertAdjacentElement('afterend',earningsButton);
+  }
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  const sellerStats=document.querySelector('#dashboard .seller-stats');
+  if(sellerStats&&!document.getElementById('recapButton')){
+    const recapButton=document.createElement('button');
+    recapButton.id='recapButton';
+    recapButton.className='notice';
+    recapButton.style.cssText='border:0;text-align:left;width:calc(100% - 40px);margin-top:0';
+    recapButton.innerHTML='<b>Completed: Vintage plant stand</b>See results and prepare for the safe handoff.';
+    recapButton.onclick=()=>showScreen('auctionrecap');
+    sellerStats.insertAdjacentElement('afterend',recapButton);
+  }
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('#discover .category').forEach(button=>{
+    button.onclick=()=>showCategory(button.textContent.trim());
+  });
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  const profileActions=document.querySelector('#profile .form');
+  if(profileActions&&!document.getElementById('messageSellerButton')){
+    const messageButton=document.createElement('button');
+    messageButton.id='messageSellerButton';
+    messageButton.className='ghost wide';
+    messageButton.style.marginTop='9px';
+    messageButton.textContent='Message Maya';
+    messageButton.onclick=()=>showScreen('conversation');
+    profileActions.appendChild(messageButton);
+  }
+});
+function reactToAuction(){
+  const button=document.getElementById('reactionButton');
+  const reacted=button.classList.toggle('selected');
+  const count=Number(button.dataset.count||14)+(reacted?1:-1);
+  button.dataset.count=String(count);
+  button.textContent=(reacted?'♥ ':'♡ ')+count;
+  toast(reacted?'Reaction added!':'Reaction removed');
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const liveChatHeading=document.querySelector('#auction .chat h3');
+  if(liveChatHeading&&!document.getElementById('reactionButton')){
+    const reactionButton=document.createElement('button');
+    reactionButton.id='reactionButton';
+    reactionButton.className='ghost';
+    reactionButton.style.cssText='float:right;margin-top:-8px;margin-right:8px';
+    reactionButton.dataset.count='14';
+    reactionButton.textContent='♡ 14';
+    reactionButton.onclick=reactToAuction;
+    liveChatHeading.appendChild(reactionButton);
+  }
+});
+let launchTiming='live';
+function setLaunchTiming(button,timing){
+  launchTiming=timing;
+  document.querySelectorAll('#launch-timing button').forEach(item=>item.classList.remove('selected'));
+  button.classList.add('selected');
+  const scheduleField=document.getElementById('scheduleField');
+  if(scheduleField){scheduleField.style.display=timing==='schedule'?'grid':'none'}
+}
+function postListing(event){
+  event.preventDefault();
+  const title=event.target.querySelector('input[placeholder^="e.g."]').value||'Your item';
+  const price=event.target.querySelector('input[type="number"]').value||'0';
+  const reserve=document.getElementById('reservePrice')?.value.trim();
+  const duration=document.querySelector('#length .selected').textContent;
+  const condition=document.getElementById('conditionSelect').value;
+  const description=document.getElementById('listingDescription').value.trim();
+  const scheduledAt=document.getElementById('scheduledAt')?.value;
+  document.getElementById('previewTitle').textContent=title;
+  document.getElementById('previewPrice').textContent='$'+price+'.00';
+  document.getElementById('previewAuction').textContent=launchTiming==='schedule'&&scheduledAt?'Scheduled '+new Date(scheduledAt).toLocaleString():'Starts now · '+duration+' auction';
+  document.getElementById('previewDetails').textContent=condition+' condition'+(reserve?' · private reserve set':'');
+  document.getElementById('previewDescription').textContent=description;
+  const badge=document.querySelector('#preview .live');
+  if(badge){badge.textContent=launchTiming==='schedule'?'SCHEDULED AUCTION':'READY TO GO LIVE'}
+  const publishButton=document.querySelector('#preview .primary');
+  if(publishButton){publishButton.textContent=launchTiming==='schedule'?'Schedule auction':'Post live auction'}
+  try{localStorage.setItem('yardbidsDraftReserve',reserve||'');localStorage.setItem('yardbidsLaunchTiming',launchTiming)}catch(error){}
+  showScreen('preview');
+}
+function publishListing(){
+  const title=document.getElementById('previewTitle').textContent,price=document.getElementById('previewPrice').textContent,photo=document.getElementById('previewImage').style.backgroundImage;
+  saveListing({title,price,photo});applySavedListing();
+  toast(launchTiming==='schedule'?'Your auction is scheduled!':'Your auction is live!');
+  setTimeout(()=>showScreen('dashboard'),700);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const sellForm=document.querySelector('#sell form');
+  const deliveryChoice=document.getElementById('delivery-choice');
+  if(sellForm&&deliveryChoice&&!document.getElementById('launch-timing')){
+    const launchField=document.createElement('div');
+    launchField.className='field';
+    launchField.innerHTML='<span>Launch timing</span><div class="choice" id="launch-timing"><button type="button" class="selected" onclick="setLaunchTiming(this,\'live\')">Go live now</button><button type="button" onclick="setLaunchTiming(this,\'schedule\')">Schedule</button></div><label class="field" id="scheduleField" style="display:none;margin-bottom:0">Start date and time<input id="scheduledAt" type="datetime-local"></label>';
+    sellForm.insertBefore(launchField,deliveryChoice.parentElement);
+  }
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  const safetyList=document.querySelector('#safetycenter .list');
+  if(safetyList&&!document.getElementById('guidelinesButton')){
+    const guidelinesButton=document.createElement('button');
+    guidelinesButton.id='guidelinesButton';
+    guidelinesButton.className='account-action';
+    guidelinesButton.style.cssText='margin:0 0 10px;width:100%';
+    guidelinesButton.innerHTML='Selling guidelines<small>Learn what can be listed and how to keep the community safe.</small>';
+    guidelinesButton.onclick=()=>showScreen('guidelines');
+    safetyList.appendChild(guidelinesButton);
+  }
+});
+function confirmDeliveryReceived(){
+  try{localStorage.setItem('yardbidsDeliveryConfirmed','true')}catch(error){}
+  toast('Delivery confirmed. Thanks for keeping the order up to date!');
+  setTimeout(()=>showScreen('rating'),650);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const shippingForm=document.querySelector('#shipping .form');
+  if(shippingForm&&!document.getElementById('confirmDeliveryButton')){
+    const deliveryButton=document.createElement('button');
+    deliveryButton.id='confirmDeliveryButton';
+    deliveryButton.className='primary wide';
+    deliveryButton.style.marginTop='10px';
+    deliveryButton.textContent='I received my item';
+    deliveryButton.onclick=confirmDeliveryReceived;
+    shippingForm.appendChild(deliveryButton);
+  }
+});
+function applyFilters(){
+  const delivery=document.querySelector('#filter-delivery .selected').textContent;
+  const timing=document.querySelector('#filter-timing .selected').textContent;
+  const minimum=document.getElementById('filterMinPrice')?.value.trim();
+  const maximum=document.getElementById('filterMaxPrice')?.value.trim();
+  const priceText=minimum||maximum?' · $'+(minimum||'0')+'–$'+(maximum||'any'):'';
+  document.getElementById('discoverFilter').textContent=delivery+' · '+timing+' auctions'+priceText;
+  try{localStorage.setItem('yardbidsFilters',JSON.stringify({delivery,timing,minimum,maximum}))}catch(error){}
+  showScreen('discover');
+  toast('Filters applied');
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const filterForm=document.querySelector('#filters .form');
+  const submitButton=filterForm?.querySelector('.primary');
+  if(filterForm&&submitButton&&!document.getElementById('filterMinPrice')){
+    const priceField=document.createElement('div');
+    priceField.className='field';
+    priceField.innerHTML='<span>Current bid range</span><div class="row"><input id="filterMinPrice" type="number" min="0" placeholder="Min" style="width:48%;border:1px solid var(--sand);border-radius:12px;padding:13px;font:inherit"><input id="filterMaxPrice" type="number" min="0" placeholder="Max" style="width:48%;border:1px solid var(--sand);border-radius:12px;padding:13px;font:inherit"></div>';
+    filterForm.insertBefore(priceField,submitButton);
+  }
+});
+function submitRating(){
+  const note=document.getElementById('ratingNote')?.value.trim()||'';
+  const stars=document.querySelectorAll('#stars .selected').length;
+  try{localStorage.setItem('yardbidsRating',JSON.stringify({stars,note,createdAt:new Date().toISOString()}))}catch(error){}
+  toast('Thanks - your rating was shared!');
+  setTimeout(()=>showScreen('home'),800);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const ratingForm=document.querySelector('#rating .form');
+  const submitButton=ratingForm?.querySelector('.primary');
+  if(ratingForm&&submitButton&&!document.getElementById('ratingNote')){
+    const noteField=document.createElement('label');
+    noteField.className='field';
+    noteField.innerHTML='Add a note (optional)<textarea id="ratingNote" rows="3" class="report-note" style="width:100%;margin:0" placeholder="What made this transaction go well?"></textarea>';
+    ratingForm.insertBefore(noteField,submitButton);
+  }
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  const protectionLine=[...document.querySelectorAll('#checkout .checkout-card .line')].find(line=>line.textContent.includes('Buyer protection'));
+  if(protectionLine){
+    protectionLine.style.cursor='pointer';
+    protectionLine.setAttribute('role','button');
+    protectionLine.title='Learn about buyer protection';
+    protectionLine.onclick=()=>showScreen('protection');
+  }
+});
+var checkoutWithAddress=renderCheckout;
+renderCheckout=function(){
+  checkoutWithAddress();
+  if(deliveryMode==='shipping'){
+    document.querySelectorAll('#checkoutOptions .primary').forEach(button=>{
+      button.textContent='Add shipping address';
+      button.onclick=()=>showScreen('shippingaddress');
+    });
+  }
+}
+function saveShippingAddress(){
+  const required=['shipName','shipStreet','shipCity','shipState','shipZip'];
+  const values=Object.fromEntries(required.map(id=>[id,document.getElementById(id).value.trim()]));
+  if(required.some(id=>!values[id])){toast('Complete your delivery address first.');return}
+  try{localStorage.setItem('yardbidsShippingAddress',JSON.stringify(values))}catch(error){}
+  finishCheckout();
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const ordersList=document.querySelector('#orders .list');
+  if(ordersList&&!document.getElementById('receiptButton')){
+    const receiptButton=document.createElement('button');
+    receiptButton.id='receiptButton';
+    receiptButton.className='ghost wide';
+    receiptButton.style.marginTop='8px';
+    receiptButton.textContent='View payment receipt';
+    receiptButton.onclick=()=>showScreen('receipt');
+    ordersList.appendChild(receiptButton);
+  }
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  const sellerButton=document.querySelector('#auction .detail > .ghost');
+  if(sellerButton&&!document.getElementById('itemDetailsCard')){
+    const detailsCard=document.createElement('div');
+    detailsCard.id='itemDetailsCard';
+    detailsCard.className='chat';
+    detailsCard.style.margin='0 0 14px';
+    detailsCard.innerHTML='<h3>About this item</h3><div class="msg"><b>Condition:</b> Great condition. LED bulb included and working.</div><div class="msg"><b>Seller notes:</b> Lightly used, no cracks or chips. Base is sturdy and shade is clean.</div><div class="msg"><b>Delivery:</b> Local safe meetup or shipping available.</div>';
+    sellerButton.insertAdjacentElement('afterend',detailsCard);
+  }
+});
+function removeWatchItem(button){
+  const card=button.closest('.watch-card');
+  if(card){card.remove();toast('Removed from your watchlist.');}
+  if(!document.querySelector('#watchlist .watch-card')){
+    const reminder=document.querySelector('#watchlist .reminder');
+    if(reminder){reminder.innerHTML='<b>Your watchlist is clear</b>Save an auction to get reminders before it ends.'}
+  }
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('#watchlist .watch-card').forEach(card=>{
+    if(card.querySelector('.remove-watch'))return;
+    const removeButton=document.createElement('button');
+    removeButton.className='ghost remove-watch';
+    removeButton.style.marginLeft='4px';
+    removeButton.textContent='Remove';
+    removeButton.onclick=()=>removeWatchItem(removeButton);
+    card.appendChild(removeButton);
+  });
+});
+function updateFollowingFeed(following){
+  const feedCard=document.querySelector('#following .list');
+  const auctionCard=document.querySelector('#following .watch-card');
+  if(feedCard)feedCard.style.display=following?'block':'none';
+  if(auctionCard)auctionCard.style.display=following?'flex':'none';
+  const reminder=document.querySelector('#following .reminder');
+  if(reminder)reminder.innerHTML=following?'<b>More relevant finds</b>Follow a seller from their profile to add their future listings here.':'<b>Nothing to show yet</b>Follow sellers you trust to create a personal auction feed.';
+}
+function followSeller(){
+  const button=document.getElementById('followMaya');
+  const following=!button.textContent.includes('Following');
+  button.textContent=following?'Following Maya':'Follow Maya';
+  try{localStorage.setItem('yardbidsFollowingMaya',following?'true':'false')}catch(error){}
+  updateFollowingFeed(following);
+  toast(following?'You will get alerts when Maya posts an auction.':'You stopped following Maya.');
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const saved=localStorage.getItem('yardbidsFollowingMaya');
+  const following=saved!=='false';
+  const button=document.getElementById('followMaya');
+  if(button)button.textContent=following?'Following Maya':'Follow Maya';
+  updateFollowingFeed(following);
+});
+function sendQuickMessage(text){
+  const input=document.getElementById('directInput');
+  if(!input)return;
+  input.value=text;
+  sendDirect();
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const compose=document.querySelector('#conversation .chat-compose');
+  if(compose&&!document.getElementById('quickMessages')){
+    const prompts=document.createElement('div');
+    prompts.id='quickMessages';
+    prompts.className='choice';
+    prompts.style.margin='12px 0 0';
+    prompts.innerHTML='<button type="button">Is this still available?</button><button type="button">Can you share more photos?</button><button type="button">What time works for pickup?</button>';
+    prompts.querySelectorAll('button').forEach(button=>button.onclick=()=>sendQuickMessage(button.textContent));
+    compose.insertAdjacentElement('beforebegin',prompts);
+  }
+});
+function applyFilters(){
+  const delivery=document.querySelector('#filter-delivery .selected').textContent;
+  const timing=document.querySelector('#filter-timing .selected').textContent;
+  const minimum=document.getElementById('filterMinPrice')?.value.trim();
+  const maximum=document.getElementById('filterMaxPrice')?.value.trim();
+  const sort=document.querySelector('#filter-sort .selected')?.textContent||'Nearest';
+  const priceText=minimum||maximum?' · $'+(minimum||'0')+'–$'+(maximum||'any'):'';
+  document.getElementById('discoverFilter').textContent=delivery+' · '+timing+' · '+sort+priceText;
+  try{localStorage.setItem('yardbidsFilters',JSON.stringify({delivery,timing,minimum,maximum,sort}))}catch(error){}
+  showScreen('discover');
+  toast('Filters and sort applied');
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const filterForm=document.querySelector('#filters .form');
+  const submitButton=filterForm?.querySelector('.primary');
+  if(filterForm&&submitButton&&!document.getElementById('filter-sort')){
+    const sortField=document.createElement('div');
+    sortField.className='field';
+    sortField.innerHTML='<span>Sort auctions</span><div class="choice" id="filter-sort"><button type="button" class="selected" onclick="selectChoice(\'filter-sort\',this)">Nearest</button><button type="button" onclick="selectChoice(\'filter-sort\',this)">Ending soon</button><button type="button" onclick="selectChoice(\'filter-sort\',this)">Lowest bid</button></div>';
+    filterForm.insertBefore(sortField,submitButton);
+  }
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  const profileStats=document.querySelector('#profile .profile-stats');
+  if(profileStats&&!document.getElementById('soldHistoryButton')){
+    const soldHistoryButton=document.createElement('button');
+    soldHistoryButton.id='soldHistoryButton';
+    soldHistoryButton.className='ghost wide';
+    soldHistoryButton.style.cssText='margin:12px 20px 0;width:calc(100% - 40px)';
+    soldHistoryButton.textContent='View Maya’s sold items';
+    soldHistoryButton.onclick=()=>showScreen('soldhistory');
+    profileStats.insertAdjacentElement('afterend',soldHistoryButton);
+  }
+});
+function openEditProfile(){
+  const saved=JSON.parse(localStorage.getItem('yardbidsProfile')||'{}');
+  document.getElementById('profileNameInput').value=saved.name||document.querySelector('#me .profile-head h1').textContent||'Taylor';
+  document.getElementById('profileBioInput').value=saved.bio||'';
+  showScreen('editprofile');
+}
+function saveProfileDetails(){
+  const name=document.getElementById('profileNameInput').value.trim();
+  const bio=document.getElementById('profileBioInput').value.trim();
+  if(!name){toast('Add a display name first.');return}
+  try{localStorage.setItem('yardbidsProfile',JSON.stringify({name,bio}))}catch(error){}
+  const heading=document.querySelector('#me .profile-head h1');
+  if(heading)heading.textContent=name;
+  toast('Your public profile was updated.');
+  setTimeout(()=>showScreen('me'),600);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const profileHead=document.querySelector('#me .profile-head');
+  if(profileHead&&!document.getElementById('editProfileButton')){
+    const editButton=document.createElement('button');
+    editButton.id='editProfileButton';
+    editButton.className='ghost';
+    editButton.textContent='Edit profile';
+    editButton.onclick=openEditProfile;
+    profileHead.appendChild(editButton);
+  }
+  const saved=JSON.parse(localStorage.getItem('yardbidsProfile')||'{}');
+  const heading=document.querySelector('#me .profile-head h1');
+  if(saved.name&&heading)heading.textContent=saved.name;
+});
+window.addEventListener('DOMContentLoaded',()=>{
+  const safetyList=document.querySelector('#safetycenter .list');
+  if(safetyList&&!document.getElementById('helpCenterButton')){
+    const helpButton=document.createElement('button');
+    helpButton.id='helpCenterButton';
+    helpButton.className='account-action';
+    helpButton.style.cssText='margin:0 0 10px;width:100%';
+    helpButton.innerHTML='Help Center<small>Answers about bids, shipping, payments, and safe pickups.</small>';
+    helpButton.onclick=()=>showScreen('helpcenter');
+    safetyList.appendChild(helpButton);
+  }
+});
+function submitSupportRequest(){
+  const topic=document.getElementById('supportTopic').value;
+  const message=document.getElementById('supportMessage').value.trim();
+  if(!message){toast('Add a short description first.');return}
+  try{localStorage.setItem('yardbidsSupportRequest',JSON.stringify({topic,message,createdAt:new Date().toISOString()}))}catch(error){}
+  toast('Support request sent. We will be in touch in-app.');
+  setTimeout(()=>showScreen('safetycenter'),750);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const contactButton=document.querySelector('#helpcenter .primary');
+  if(contactButton){contactButton.onclick=()=>showScreen('supportrequest')}
+});
+function rsvpLiveEvent(){
+  const button=document.querySelector('#liveevent .primary');
+  const attending=button.dataset.rsvp!=='true';
+  button.dataset.rsvp=attending?'true':'false';
+  button.textContent=attending?'Reminder set - tap to remove':'Remind me before it starts';
+  try{localStorage.setItem('yardbidsLiveEventReminder',attending?'true':'false')}catch(error){}
+  toast(attending?'Reminder set for Thursday Night Finds!':'Reminder removed.');
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const button=document.querySelector('#liveevent .primary');
+  if(button&&localStorage.getItem('yardbidsLiveEventReminder')==='true'){
+    button.dataset.rsvp='true';
+    button.textContent='Reminder set - tap to remove';
+  }
+});
+function relistAuction(){
+  showScreen('sell');
+  const sellForm=document.querySelector('#sell form');
+  const titleInput=sellForm?.querySelector('input[placeholder^="e.g."]');
+  const priceInput=sellForm?.querySelector('input[type="number"]');
+  if(titleInput)titleInput.value=document.getElementById('manageTitle').textContent;
+  if(priceInput)priceInput.value='18';
+  toast('Listing copied - choose new timing and post again.');
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const cancelButton=document.querySelector('#manage .form .ghost.wide:last-of-type');
+  if(cancelButton&&!document.getElementById('relistButton')){
+    const relistButton=document.createElement('button');
+    relistButton.id='relistButton';
+    relistButton.className='ghost wide';
+    relistButton.style.marginBottom='10px';
+    relistButton.textContent='Relist as a new auction';
+    relistButton.onclick=relistAuction;
+    cancelButton.insertAdjacentElement('beforebegin',relistButton);
+  }
+});
+function markAlertsRead(){
+  const list=document.querySelector('#alerts .list');
+  if(list)list.innerHTML='<div class="chat"><b>You are all caught up</b><div class="msg">New bids, messages, delivery updates, and event reminders will appear here.</div></div>';
+  const bell=document.querySelector('#home header .ghost');
+  if(bell)bell.textContent='✓';
+  try{localStorage.setItem('yardbidsAlertsRead','true')}catch(error){}
+  toast('All alerts marked as read.');
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const readButton=document.querySelector('#alerts header .ghost');
+  if(readButton)readButton.onclick=markAlertsRead;
+  if(localStorage.getItem('yardbidsAlertsRead')==='true'){
+    const bell=document.querySelector('#home header .ghost');
+    if(bell)bell.textContent='✓';
+  }
+});
+function resetPrototypeData(){
+  if(!confirm('Reset YardBids demo data on this device? This clears saved prototype choices.'))return;
+  Object.keys(localStorage).filter(key=>key.startsWith('yardbids')).forEach(key=>localStorage.removeItem(key));
+  toast('Demo data reset. Refresh to start clean.');
+  setTimeout(()=>showScreen('home'),650);
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  const settingsForm=document.querySelector('#settings .form');
+  if(settingsForm&&!document.getElementById('resetPrototypeButton')){
+    const resetButton=document.createElement('button');
+    resetButton.id='resetPrototypeButton';
+    resetButton.className='ghost wide';
+    resetButton.style.marginTop='10px';
+    resetButton.textContent='Reset prototype data';
+    resetButton.onclick=resetPrototypeData;
+    settingsForm.appendChild(resetButton);
+  }
+});
+</script>
+<section id="savedsearch" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">Back</button><div class="logo">Saved <b>searches</b></div><span></span></header><div class="heading"><h1>Never miss a find</h1><p>We will alert you when a matching item goes live.</p></div><div class="form"><label class="field">What are you looking for?<input id="savedSearchTerm" placeholder="e.g., patio chairs"></label><label class="field">Category<select id="savedSearchCategory"><option>All categories</option><option>Furniture</option><option>Home &amp; kitchen</option><option>Tools &amp; DIY</option><option>Baby &amp; kids</option><option>Electronics</option></select></label><div class="field"><span>Delivery</span><div class="choice" id="saved-search-delivery"><button class="selected" onclick="selectChoice('saved-search-delivery',this)">Nearby or shipping</button><button onclick="selectChoice('saved-search-delivery',this)">Nearby only</button><button onclick="selectChoice('saved-search-delivery',this)">Shipping only</button></div></div><button class="primary wide" onclick="saveSearchAlert()">Save search alert</button></div><div class="list"><h3>Your alerts</h3><div class="chat" id="savedSearchStatus"><b>No saved searches yet</b><div class="msg">Save one above and YardBids will keep watch for you.</div></div></div></section>
+<section id="settings" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">Back</button><div class="logo">Account <b>settings</b></div><span></span></header><div class="heading"><h1>Make YardBids yours</h1><p>Choose which alerts you receive and what others can see.</p></div><div class="list"><h3>Notifications</h3><div class="chat"><div class="row"><span><b>Outbid alerts</b><small class="text-muted" style="display:block">Know when someone bids higher.</small></span><button class="ghost setting-toggle selected" onclick="toggleSetting(this)">On</button></div></div><div style="height:10px"></div><div class="chat"><div class="row"><span><b>Auction ending soon</b><small class="text-muted" style="display:block">A reminder before watched auctions close.</small></span><button class="ghost setting-toggle selected" onclick="toggleSetting(this)">On</button></div></div><div style="height:10px"></div><div class="chat"><div class="row"><span><b>Messages</b><small class="text-muted" style="display:block">Replies and handoff updates.</small></span><button class="ghost setting-toggle selected" onclick="toggleSetting(this)">On</button></div></div><h3 style="margin-top:22px">Privacy</h3><div class="chat"><b>Your pickup privacy</b><div class="msg">Your home address is never shown publicly. Only your agreed meeting details are shared after payment.</div><button class="ghost" style="margin-top:8px" onclick="toast('Pickup privacy is always protected on YardBids.')">Learn more</button></div></div><div class="form"><button class="primary wide" onclick="saveSettings()">Save settings</button></div></section>
+<section id="invite" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">Back</button><div class="logo">Invite <b>neighbors</b></div><span></span></header><div class="success" style="padding-top:38px"><div class="check">+</div><h1>Good finds are better shared</h1><p>Invite friends, family, or neighbors to join YardBids. Your local marketplace gets better with more trusted people.</p></div><div class="checkout-card"><div class="eyebrow" style="color:var(--muted)">YOUR INVITE CODE</div><div class="row" style="margin-top:7px"><b style="font-size:25px;letter-spacing:2px">YARD-7H42</b><button class="ghost" onclick="copyInviteCode()">Copy</button></div></div><div class="form"><button class="primary wide" onclick="shareInvite()">Share YardBids</button></div><div class="safety"><b>Early community perk</b>Every new neighbor you invite helps bring more local items and more buyers to your auctions.</div></section>
+<section id="orders" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">Back</button><div class="logo">Your <b>orders</b></div><span></span></header><div class="heading"><h1>Purchases in progress</h1><p>Track delivery, pickup, and payment protection in one place.</p></div><div class="list"><button class="list-item" onclick="showScreen('meetup')"><div class="mini-photo" style="background:linear-gradient(135deg,#e8c982,#6a4e31)"></div><span><b>Mid-century floor lamp</b><small>Local pickup · Choose a safe meetup spot</small></span><b style="color:var(--coral)">Open</b></button><button class="list-item" onclick="showScreen('shipping')"><div class="mini-photo" style="background:linear-gradient(135deg,#b8c9d5,#65788a)"></div><span><b>Kitchen starter bundle</b><small>Shipping · Label created, awaiting carrier scan</small></span><b style="color:var(--teal)">Track</b></button></div><div class="safety"><b>Buyer protection</b>Your payment remains protected until the purchase is completed. Report a problem from Safety &amp; support if something is not right.</div></section>
+<section id="blockmember" class="screen"><header class="top"><button class="back" onclick="showScreen('conversation')">Back</button><div class="logo">Block <b>member</b></div><span></span></header><div class="success" style="padding-top:38px"><div class="check" style="background:#fff0ec;color:var(--coral)">!</div><h1>Block Maya R.?</h1><p>Blocked members cannot message you, bid on your listings, or view your profile activity.</p></div><div class="safety"><b>Need help with an order instead?</b>Blocking stops future contact. For payment or item problems, use Report a problem so YardBids can review the transaction.</div><div class="form"><button class="primary wide" onclick="confirmBlockMember()">Block Maya</button><button class="ghost wide" style="margin-top:10px" onclick="showScreen('report')">Report a problem instead</button></div></section>
+<section id="handoffcode" class="screen"><header class="top"><button class="back" onclick="showScreen('handoff')">Back</button><div class="logo">Meetup <b>check-in</b></div><span></span></header><div class="success" style="padding-top:36px"><div class="check">OK</div><h1>Confirm your match</h1><p>When you meet, ask Maya to show this same YardBids handoff code before exchanging the item.</p></div><div class="checkout-card" style="text-align:center"><div class="eyebrow" style="color:var(--muted)">YOUR HANDOFF CODE</div><b style="display:block;font-size:34px;letter-spacing:5px;margin-top:8px">218 406</b></div><div class="form"><label class="field">Enter Maya’s code<input id="handoffCodeInput" inputmode="numeric" placeholder="6-digit code"></label><button class="primary wide" onclick="verifyHandoffCode()">Verify meetup code</button></div><div class="safety"><b>Keep it private</b>Only share the code in person at your agreed public meeting spot. Do not confirm until you have inspected the item.</div></section>
+<section id="following" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">Back</button><div class="logo">Following <b>feed</b></div><span></span></header><div class="heading"><h1>From sellers you follow</h1><p>See their newest auctions without searching.</p></div><div class="list"><button class="list-item" onclick="showScreen('profile')"><div class="avatar" style="width:54px;height:54px;font-size:17px">M</div><span><b>Maya R. <span class="verified">Verified</span></b><small>One live auction · Replies in about 10 min</small></span><b>View</b></button></div><article class="watch-card"><div class="thumb"></div><div style="flex:1"><h3>Mid-century floor lamp</h3><p>By Maya R. · Current bid: <b>$18.00</b></p><p class="ending">Live now · Ends in 02:14</p></div><button class="round" onclick="showScreen('auction')">Go</button></article><div class="reminder"><b>More relevant finds</b>Follow a seller from their profile to add their future listings here.</div></section>
+<section id="autobid" class="screen"><header class="top"><button class="back" onclick="showScreen('auction')">Back</button><div class="logo">Set a <b>max bid</b></div><span></span></header><div class="heading"><h1>Bid without hovering</h1><p>YardBids can bid only as much as needed, up to your private maximum.</p></div><div class="checkout-card"><div class="line"><span>Current bid</span><b id="autoBidCurrent">$18.00</b></div><div class="line"><span>Next bid</span><b>$20.00</b></div></div><div class="form"><label class="field">Your maximum bid<input id="autoBidAmount" type="number" min="20" inputmode="decimal" placeholder="e.g. 35"></label><button class="primary wide" onclick="saveAutoBid()">Set private max bid</button></div><div class="safety"><b>Your maximum is private</b>Sellers and other bidders only see the current bid, not the most you are willing to pay.</div></section>
+<section id="earnings" class="screen"><header class="top"><button class="back" onclick="showScreen('dashboard')">Back</button><div class="logo">Seller <b>earnings</b></div><span></span></header><div class="heading"><h1>Your payout details</h1><p>See exactly how a completed sale becomes available earnings.</p></div><div class="checkout-card"><div class="item-mini"><div class="mini-photo" style="background:linear-gradient(135deg,#b2c1a8,#5a7664)"></div><div><b>Vintage plant stand</b><br><small>Completed safe meetup</small></div></div><div class="line"><span>Winning bid</span><b>$28.00</b></div><div class="line"><span>YardBids selling fee</span><b>-$4.00</b></div><div class="line total"><span>Available to transfer</span><b>$24.00</b></div></div><div class="safety"><b>Clear before you sell</b>Buyer protection is shown separately to buyers. Sellers see the fee and expected payout before publishing an auction.</div><div class="form"><button class="primary wide" onclick="showScreen('payout')">Transfer $24.00</button></div></section>
+<section id="auctionrecap" class="screen"><header class="top"><button class="back" onclick="showScreen('dashboard')">Back</button><div class="logo">Auction <b>recap</b></div><span></span></header><div class="success" style="padding-top:34px"><div class="check">$</div><h1>Sold for $28.00</h1><p>Your vintage plant stand auction closed successfully. The buyer has selected a safe meetup.</p></div><div class="seller-stats"><div><b>18</b>Watchers</div><div><b>9</b>Bids</div><div><b>47m</b>Live</div></div><div class="list"><h3>What happens next</h3><div class="chat"><b>1. Meet safely</b><div class="msg">Use the agreed public meetup spot and keep coordination in YardBids chat.</div></div><div style="height:10px"></div><div class="chat"><b>2. Confirm the handoff</b><div class="msg">After the buyer receives the item, confirmation releases your $24.00 payout.</div></div></div><div class="form"><button class="primary wide" onclick="showScreen('handoff')">Open handoff details</button></div></section>
+<section id="guidelines" class="screen"><header class="top"><button class="back" onclick="showScreen('safetycenter')">Back</button><div class="logo">Selling <b>guidelines</b></div><span></span></header><div class="heading"><h1>Keep YardBids useful and safe</h1><p>List everyday household items honestly, with clear photos and accurate condition details.</p></div><div class="list"><h3>Great things to list</h3><div class="chat"><b>Home goods, furniture, tools, toys, and electronics</b><div class="msg">Make sure items are legal to sell, accurately described, and ready for safe pickup or shipping.</div></div><h3 style="margin-top:22px">Not allowed</h3><div class="chat"><b>Unsafe or restricted items</b><div class="msg">Do not list weapons, illegal goods, recalled or hazardous products, counterfeit items, stolen property, or personal services.</div></div><div style="height:10px"></div><div class="chat"><b>Respect privacy</b><div class="msg">Never post home addresses, phone numbers, or sensitive personal information in a listing or public comment.</div></div></div><div class="safety"><b>See something concerning?</b>Use Report a problem from Safety &amp; support. YardBids can review the listing and keep payment protected when an order is involved.</div></section>
+<section id="protection" class="screen"><header class="top"><button class="back" onclick="showScreen('checkout')">Back</button><div class="logo">Buyer <b>protection</b></div><span></span></header><div class="success" style="padding-top:35px"><div class="check">OK</div><h1>Buy with confidence</h1><p>YardBids keeps your payment protected while an order is being completed.</p></div><div class="list"><div class="chat"><b>For local pickup</b><div class="msg">Confirm the handoff only after you have the item and it matches the listing. Report a problem before confirming if something is wrong.</div></div><div style="height:10px"></div><div class="chat"><b>For shipping</b><div class="msg">Track the order in YardBids and confirm receipt only when the item arrives as described.</div></div><div style="height:10px"></div><div class="chat"><b>Need help?</b><div class="msg">Use in-app messages and report a problem from Safety &amp; support. YardBids keeps the transaction record for review.</div></div></div></section>
+<section id="shippingaddress" class="screen"><header class="top"><button class="back" onclick="showScreen('checkout')">Back</button><div class="logo">Shipping <b>address</b></div><span></span></header><div class="heading"><h1>Where should it go?</h1><p>Your address stays private. The seller only receives a prepaid label.</p></div><div class="form"><label class="field">Full name<input id="shipName" autocomplete="name" placeholder="Name for delivery"></label><label class="field">Street address<input id="shipStreet" autocomplete="street-address" placeholder="Street and number"></label><label class="field">City<input id="shipCity" autocomplete="address-level2" placeholder="City"></label><div class="row"><label class="field" style="width:48%">State<input id="shipState" autocomplete="address-level1" placeholder="State"></label><label class="field" style="width:48%">ZIP code<input id="shipZip" autocomplete="postal-code" inputmode="numeric" placeholder="ZIP"></label></div><button class="primary wide" onclick="saveShippingAddress()">Continue to secure payment</button></div><div class="safety"><b>Address privacy</b>Your delivery address is used only for the shipping label and is never shown on a public profile or listing.</div></section>
+<section id="receipt" class="screen"><header class="top"><button class="back" onclick="showScreen('orders')">Back</button><div class="logo">Order <b>receipt</b></div><span></span></header><div class="success" style="padding-top:35px"><div class="check">OK</div><h1>Payment confirmed</h1><p>Your receipt is available in YardBids whenever you need it.</p></div><div class="checkout-card"><div class="item-mini"><div class="thumb"></div><div><b>Mid-century floor lamp</b><br><small>Order YB-10482</small></div></div><div class="line"><span>Winning bid</span><b>$18.00</b></div><div class="line"><span>Buyer protection</span><b>$1.49</b></div><div class="line"><span>Local safe meetup</span><b>Free</b></div><div class="line total"><span>Paid</span><b>$19.49</b></div></div><div class="safety"><b>Keep this record</b>Your payment and in-app messages stay connected to this order if you need help later.</div></section>
+<section id="soldhistory" class="screen"><header class="top"><button class="back" onclick="showScreen('profile')">Back</button><div class="logo">Maya’s <b>sold items</b></div><span></span></header><div class="heading"><h1>21 successful sales</h1><p>Completed auctions help show a seller’s track record. Exact pickup locations are never shown.</p></div><div class="list"><div class="list-item"><div class="mini-photo" style="background:linear-gradient(135deg,#b2c1a8,#5a7664)"></div><span><b>Vintage plant stand</b><small>Sold for $28 · Safe meetup completed</small></span></div><div class="list-item"><div class="mini-photo" style="background:linear-gradient(135deg,#d0aa7c,#745b40)"></div><span><b>Kitchen starter bundle</b><small>Sold for $22 · Shipped successfully</small></span></div><div class="list-item"><div class="mini-photo" style="background:linear-gradient(135deg,#8fa9ba,#536b79)"></div><span><b>Wooden bookshelf</b><small>Sold for $35 · Safe meetup completed</small></span></div></div><div class="safety"><b>Private by design</b>Sold history shows only broad item and completion details—never buyer names, addresses, or meetup locations.</div></section>
+<section id="editprofile" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">Back</button><div class="logo">Edit <b>profile</b></div><span></span></header><div class="heading"><h1>How your neighbors see you</h1><p>Keep your profile friendly and simple. Private contact details are never public.</p></div><div class="form"><label class="field">Display name<input id="profileNameInput" maxlength="30" placeholder="Your name"></label><label class="field">Short bio (optional)<textarea id="profileBioInput" rows="4" class="report-note" style="width:100%;margin:0" placeholder="e.g. Decluttering our home and finding good second lives for useful things."></textarea></label><button class="primary wide" onclick="saveProfileDetails()">Save profile</button></div><div class="safety"><b>Profile privacy</b>Do not include your address, phone number, or other contact information in your bio.</div></section>
+<section id="helpcenter" class="screen"><header class="top"><button class="back" onclick="showScreen('safetycenter')">Back</button><div class="logo">Help <b>center</b></div><span></span></header><div class="heading"><h1>Common questions</h1><p>Quick answers for bidding, payments, pickups, and shipping.</p></div><div class="list"><div class="chat"><b>When is my bid charged?</b><div class="msg">Only if you win. Your payment is completed after the auction closes and you choose pickup or shipping.</div></div><div style="height:10px"></div><div class="chat"><b>How do safe meetups work?</b><div class="msg">Choose a well-lit public place, coordinate in YardBids chat, inspect the item, and confirm only after you receive it.</div></div><div style="height:10px"></div><div class="chat"><b>What if something goes wrong?</b><div class="msg">Use Report a problem before confirming pickup or delivery. Your payment stays protected while YardBids reviews the order.</div></div><div style="height:10px"></div><div class="chat"><b>How does shipping work?</b><div class="msg">The seller receives a prepaid label after payment. Track the package in YardBids and confirm receipt when it arrives.</div></div></div><div class="form"><button class="primary wide" onclick="toast('Help request sent - a YardBids support guide will respond.')">Contact support</button></div></section>
+<section id="supportrequest" class="screen"><header class="top"><button class="back" onclick="showScreen('helpcenter')">Back</button><div class="logo">Contact <b>support</b></div><span></span></header><div class="heading"><h1>How can we help?</h1><p>Share a few details and YardBids support can review your request.</p></div><div class="form"><label class="field">Topic<select id="supportTopic"><option>Order or payment</option><option>Safe meetup</option><option>Shipping</option><option>Account or verification</option><option>Something else</option></select></label><label class="field">What happened?<textarea id="supportMessage" rows="6" class="report-note" style="width:100%;margin:0" placeholder="Describe the issue without sharing private payment details or home addresses."></textarea></label><button class="primary wide" onclick="submitSupportRequest()">Send support request</button></div><div class="safety"><b>Urgent safety issue?</b>Do not meet again if you feel unsafe. Use Report a problem to protect the order while it is reviewed.</div></section>
+</body>
+</html>
