@@ -5,7 +5,9 @@ const path = require('path');
 
 const root = __dirname;
 const publicRoot = path.join(root, 'public');
-const dataPath = path.join(root, 'data', 'yardbids.json');
+const dataPath = fs.existsSync(path.join(root, 'data', 'yardbids.json'))
+  ? path.join(root, 'data', 'yardbids.json')
+  : path.join(root, 'yardbids.json');
 const port = Number(process.env.PORT || 3030);
 const host = process.env.RENDER ? '0.0.0.0' : '127.0.0.1';
 const stripeConfigPath = path.join(root, 'stripe-test.env');
@@ -97,8 +99,11 @@ function createStripeCheckoutSession(order) {
 
 function serveFile(response, requestedPath) {
   const safePath = path.normalize(requestedPath).replace(/^([.][.][/\\])+/, '');
-  const filePath = path.join(publicRoot, safePath === '/' ? 'index.html' : safePath);
-  if (!filePath.startsWith(publicRoot) || !fs.existsSync(filePath)) {
+  const relativePath = safePath === '/' ? 'index.html' : safePath;
+  const publicFilePath = path.join(publicRoot, relativePath);
+  const rootFilePath = path.join(root, relativePath);
+  const filePath = fs.existsSync(publicFilePath) ? publicFilePath : rootFilePath;
+  if ((!filePath.startsWith(publicRoot) && !filePath.startsWith(root)) || !fs.existsSync(filePath)) {
     response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
     response.end('Not found');
     return;
