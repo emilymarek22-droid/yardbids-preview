@@ -1,0 +1,38 @@
+{
+  "users": [
+    {
+      "id": "user-taylor",
+      "displayName": "Taylor",
+      "createdAt": "2026-07-29T00:00:00.000Z"
+    },
+    {
+      "id": "user-maya",
+      "displayName": "Maya R.",
+      "verified": true,
+      "createdAt": "2026-07-29T00:00:00.000Z"
+    }
+  ],
+  "auctions": [
+    {
+      "id": "lamp-001",
+      "title": "Mid-century floor lamp",
+      "seller": "Maya R.",
+      "currentBidCents": 1800,
+      "bidderCount": 12,
+      "endsAt": "2026-07-30T00:14:00.000Z",
+      "delivery": ["pickup", "shipping"],
+      "bids": []
+    }
+  ],
+  "listings": [],
+  "messages": [
+    {
+      "id": "message-seed-001",
+      "fromUserId": "user-maya",
+      "toUserId": "user-taylor",
+      "text": "Hi! Thanks for your interest in the lamp.",
+      "createdAt": "2026-07-29T00:00:00.000Z"
+    }
+  ],
+  "orders": []
+}
