@@ -1,0 +1,9 @@
+{
+  "name": "yardbids-local-mvp",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Local YardBids MVP server with persistent auction API",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
