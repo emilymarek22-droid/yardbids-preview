@@ -113,6 +113,7 @@
     window.addEventListener('storage',event=>{if(event.key==='yardbidsBidState')restoreBidState()});
     restoreBidState();
 let apiAuction = null;
+let apiBidTurns = 0;
 const prototypePlaceBid = placeBid;
 
 async function loadApiAuction() {
@@ -156,7 +157,17 @@ placeBid = async function () {
     document.getElementById('feedBidders').textContent = updated.bidderCount;
     document.getElementById('nextBid').textContent = 'Next bid: $' + ((updated.currentBidCents + 200) / 100).toFixed(0);
     document.getElementById('bidButton').textContent = 'Bid $' + ((updated.currentBidCents + 200) / 100).toFixed(2);
-    toast('Bid saved to the local YardBids data store!');
+    apiBidTurns += 1;
+    if (apiBidTurns >= 3) {
+      document.getElementById('timerText').textContent = '00:00';
+      document.getElementById('bidButton').textContent = 'Auction ended';
+      document.getElementById('bidButton').disabled = true;
+      renderCheckout();
+      toast('You won the auction!');
+      setTimeout(() => showScreen('checkout'), 850);
+    } else {
+      toast('Bid saved! ' + (3 - apiBidTurns) + ' more bid' + (apiBidTurns === 2 ? '' : 's') + ' to finish this demo auction.');
+    }
   } catch (error) {
     toast('The local data service is unavailable.');
   }
