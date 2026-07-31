@@ -56,11 +56,11 @@ function makeId(prefix) {
   return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-function createStripeCheckoutSession(order) {
+function createStripeCheckoutSession(order, siteUrl) {
   const fields = new URLSearchParams({
     mode: 'payment',
-    success_url: `http://127.0.0.1:${port}/?stripe_checkout=success&order_id=${encodeURIComponent(order.id)}`,
-    cancel_url: `http://127.0.0.1:${port}/?stripe_checkout=cancelled&order_id=${encodeURIComponent(order.id)}`,
+    success_url: `${siteUrl}/?stripe_checkout=success&order_id=${encodeURIComponent(order.id)}`,
+    cancel_url: `${siteUrl}/?stripe_checkout=cancelled&order_id=${encodeURIComponent(order.id)}`,
     'line_items[0][price_data][currency]': 'usd',
     'line_items[0][price_data][product_data][name]': order.title,
     'line_items[0][price_data][unit_amount]': String(order.amountCents),
@@ -226,7 +226,10 @@ const server = http.createServer(async (request, response) => {
       const data = readData();
       const order = data.orders.find((item) => item.id === input.orderId);
       if (!order) return sendJson(response, 404, { error: 'Order not found' });
-      const session = await createStripeCheckoutSession(order);
+      const forwardedProtocol = String(request.headers['x-forwarded-proto'] || '').split(',')[0].trim();
+      const protocol = forwardedProtocol || (request.socket.encrypted ? 'https' : 'http');
+      const siteUrl = `${protocol}://${request.headers.host}`;
+      const session = await createStripeCheckoutSession(order, siteUrl);
       order.status = 'stripe_checkout_created';
       order.stripeCheckoutSessionId = session.id;
       writeData(data);
