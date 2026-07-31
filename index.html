@@ -113,7 +113,8 @@
     window.addEventListener('storage',event=>{if(event.key==='yardbidsBidState')restoreBidState()});
     restoreBidState();
 let apiAuction = null;
-let apiBidTurns = 0;
+let apiBidTurns = Number(sessionStorage.getItem('yardbidsDemoBidTurns') || 0);
+let bidInFlight = false;
 const prototypePlaceBid = placeBid;
 
 async function loadApiAuction() {
@@ -137,6 +138,9 @@ async function loadApiAuction() {
 
 placeBid = async function () {
   if (!apiAuction || location.protocol === 'file:') return prototypePlaceBid();
+  if (bidInFlight || apiBidTurns >= 3) return;
+  bidInFlight = true;
+  document.getElementById('bidButton').disabled = true;
   try {
     const amountCents = apiAuction.currentBidCents + 200;
     const response = await fetch('/api/auctions/' + encodeURIComponent(apiAuction.id) + '/bids', {
@@ -158,6 +162,7 @@ placeBid = async function () {
     document.getElementById('nextBid').textContent = 'Next bid: $' + ((updated.currentBidCents + 200) / 100).toFixed(0);
     document.getElementById('bidButton').textContent = 'Bid $' + ((updated.currentBidCents + 200) / 100).toFixed(2);
     apiBidTurns += 1;
+    sessionStorage.setItem('yardbidsDemoBidTurns', String(apiBidTurns));
     if (apiBidTurns >= 3) {
       document.getElementById('timerText').textContent = '00:00';
       document.getElementById('bidButton').textContent = 'Auction ended';
@@ -167,9 +172,13 @@ placeBid = async function () {
       setTimeout(() => showScreen('checkout'), 850);
     } else {
       toast('Bid saved! ' + (3 - apiBidTurns) + ' more bid' + (apiBidTurns === 2 ? '' : 's') + ' to finish this demo auction.');
+      document.getElementById('bidButton').disabled = false;
     }
   } catch (error) {
     toast('The local data service is unavailable.');
+    document.getElementById('bidButton').disabled = false;
+  } finally {
+    bidInFlight = false;
   }
 };
 
