@@ -386,14 +386,36 @@ finishCheckout = async function () {
   if (location.protocol === 'file:' || !apiAuction) return localOrderFinishCheckout();
   let localUser = null;
   try { localUser = JSON.parse(localStorage.getItem('yardbidsLocalUser') || 'null'); } catch (error) {}
-  if (!localUser?.id) { toast('Set up your local account before checking out.'); return; }
   try {
-    const orderResponse = await fetch('/api/orders', {
+    if (!localUser?.id) {
+      const buyerResponse = await fetch('/api/users', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ displayName: 'YardBids Test Buyer' })
+      });
+      localUser = await buyerResponse.json();
+      if (!buyerResponse.ok) { toast(localUser.error || 'Test buyer could not be created.'); return; }
+      localStorage.setItem('yardbidsLocalUser', JSON.stringify(localUser));
+    }
+    let orderResponse = await fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ buyerId: localUser.id, auctionId: apiAuction.id, deliveryMethod: deliveryMode })
     });
-    const order = await orderResponse.json();
+    let order = await orderResponse.json();
+    if (orderResponse.status === 404) {
+      const buyerResponse = await fetch('/api/users', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ displayName: 'YardBids Test Buyer' })
+      });
+      localUser = await buyerResponse.json();
+      if (!buyerResponse.ok) { toast(localUser.error || 'Test buyer could not be created.'); return; }
+      localStorage.setItem('yardbidsLocalUser', JSON.stringify(localUser));
+      orderResponse = await fetch('/api/orders', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ buyerId: localUser.id, auctionId: apiAuction.id, deliveryMethod: deliveryMode })
+      });
+      order = await orderResponse.json();
+    }
     if (!orderResponse.ok) { toast(order.error || 'Order could not be created.'); return; }
     const checkoutResponse = await fetch('/api/stripe/checkout-session', {
       method: 'POST',
