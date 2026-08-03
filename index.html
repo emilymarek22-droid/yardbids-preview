@@ -442,3 +442,26 @@ finishCheckout = async function () {
 <section id="accountsetup" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">Back</button><div class="logo">Set up <b>account</b></div><span></span></header><div class="heading"><h1>Join YardBids locally</h1><p>Create a local development profile to post listings, bid, and message sellers in this early build.</p></div><div class="form"><label class="field">Display name<input id="localAccountName" maxlength="30" placeholder="Your name"></label><button class="primary wide" onclick="createLocalAccount()">Create local profile</button></div><div class="safety"><b>Development build</b>This creates a profile only in this computer’s local YardBids data. Public sign-in and secure password handling will be added before launch.</div></section>
 </body>
 </html>
+
+<script>
+window.startSecureCheckout=async function(button){
+  if(location.protocol==='file:'||!apiAuction){toast('Open the hosted YardBids preview to test payment.');return;}
+  const b=button||document.querySelector('#checkoutOptions .primary');
+  if(b?.dataset.processing==='true')return;
+  if(b){b.dataset.processing='true';b.disabled=true;b.textContent='Opening secure payment...';}
+  try{
+    let buyer;try{buyer=JSON.parse(localStorage.getItem('yardbidsLocalUser')||'null')}catch(e){}
+    if(!buyer?.id){
+      const r=await fetch('/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({displayName:'YardBids Test Buyer'})});
+      buyer=await r.json();if(!r.ok)throw Error(buyer.error||'Could not create test buyer.');
+      localStorage.setItem('yardbidsLocalUser',JSON.stringify(buyer));
+    }
+    const or=await fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({buyerId:buyer.id,auctionId:apiAuction.id,deliveryMethod:deliveryMode})});
+    const order=await or.json();if(!or.ok)throw Error(order.error||'Could not create order.');
+    const cr=await fetch('/api/stripe/checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId:order.id})});
+    const checkout=await cr.json();if(!cr.ok||!checkout.url)throw Error(checkout.error||'Stripe checkout could not start.');
+    window.location.assign(checkout.url);
+  }catch(e){toast(e.message||'Secure payment could not start.');if(b){b.disabled=false;b.dataset.processing='false';b.textContent='Try secure payment again';}}
+};
+document.addEventListener('click',function(e){const b=e.target.closest('#checkoutOptions .primary,#payButton');if(!b)return;e.preventDefault();e.stopImmediatePropagation();window.startSecureCheckout(b);},true);
+</script>
