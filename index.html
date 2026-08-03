@@ -381,6 +381,15 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 const localOrderFinishCheckout = finishCheckout;
+    const originalShowCheckoutScreen = showScreen;
+showScreen = function (id) {
+  originalShowCheckoutScreen(id);
+  if (id === 'checkout') {
+    document.querySelectorAll('#checkoutOptions .primary').forEach((button) => {
+      button.onclick = finishCheckout;
+    });
+  }
+};
 
 finishCheckout = async function () {
   if (location.protocol === 'file:' || !apiAuction) return localOrderFinishCheckout();
