@@ -465,3 +465,19 @@ window.startSecureCheckout=async function(button){
 };
 document.addEventListener('click',function(e){const b=e.target.closest('#checkoutOptions .primary,#payButton');if(!b)return;e.preventDefault();e.stopImmediatePropagation();window.startSecureCheckout(b);},true);
 </script>
+
+<script>
+window.startSecureCheckout=async function(button){
+ const b=button||document.querySelector('#checkoutOptions .primary');if(b?.dataset.processing==='true')return;
+ if(b){b.dataset.processing='true';b.disabled=true;b.textContent='Opening secure payment...';}
+ try{
+  let buyer;try{buyer=JSON.parse(localStorage.getItem('yardbidsLocalUser')||'null')}catch(e){}
+  async function newBuyer(){const r=await fetch('/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({displayName:'YardBids Test Buyer'})});const x=await r.json();if(!r.ok)throw Error(x.error||'Could not create test buyer.');localStorage.setItem('yardbidsLocalUser',JSON.stringify(x));return x;}
+  if(!buyer?.id)buyer=await newBuyer();
+  async function newOrder(){const r=await fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({buyerId:buyer.id,auctionId:apiAuction.id,deliveryMethod:deliveryMode})});return {r,x:await r.json()};}
+  let result=await newOrder();if(result.r.status===404){buyer=await newBuyer();result=await newOrder();}
+  if(!result.r.ok)throw Error(result.x.error||'Could not create order.');
+  const r=await fetch('/api/stripe/checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId:result.x.id})});const x=await r.json();if(!r.ok||!x.url)throw Error(x.error||'Stripe checkout could not start.');window.location.assign(x.url);
+ }catch(e){toast(e.message||'Secure payment could not start.');if(b){b.disabled=false;b.dataset.processing='false';b.textContent='Try secure payment again';}}
+};
+</script>
