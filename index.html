@@ -481,3 +481,26 @@ window.startSecureCheckout=async function(button){
  }catch(e){toast(e.message||'Secure payment could not start.');if(b){b.disabled=false;b.dataset.processing='false';b.textContent='Try secure payment again';}}
 };
 </script>
+
+
+<script>
+(async function showReturnedCheckout() {
+  const query = new URLSearchParams(window.location.search);
+  if (query.get('stripe_checkout') !== 'success') return;
+  const title = document.getElementById('completeTitle');
+  const message = document.getElementById('completeMessage');
+  const action = document.getElementById('completeAction');
+  if (!title || !message || !action) return;
+  title.textContent = 'Payment complete';
+  message.textContent = 'Your order is confirmed. Next, choose a public YardBids Safe Meetup spot for the handoff.';
+  action.textContent = 'Choose a safe meetup';
+  action.onclick = function () { showScreen('meetup'); };
+  const status = document.getElementById('primaryOrderStatus');
+  if (status) status.textContent = 'Payment received · Choose a safe meetup';
+  const order = document.getElementById('primaryOrder');
+  if (order) order.onclick = function () { showScreen('meetup'); };
+  showScreen('complete');
+  const orderId = query.get('order_id');
+  if (window.history && orderId) window.history.replaceState({}, document.title, window.location.pathname + '?order_complete=' + encodeURIComponent(orderId));
+})();
+</script>
