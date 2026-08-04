@@ -284,3 +284,8 @@ server.listen(port, host, () => {
 
 // Normalize an accidentally quoted or spaced Render secret.
 process.env.STRIPE_SECRET_KEY = String(process.env.STRIPE_SECRET_KEY || '').trim().replace(/^(['\"])(.*)\1$/, '$2');
+function supabasePublicConfig() {
+  const supabaseUrl = String(process.env.SUPABASE_URL || '').trim();
+  const supabasePublishableKey = String(process.env.SUPABASE_PUBLISHABLE_KEY || '').trim();
+  return { supabaseUrl, supabasePublishableKey };
+}
