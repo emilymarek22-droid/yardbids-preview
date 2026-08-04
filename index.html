@@ -504,3 +504,25 @@ window.startSecureCheckout=async function(button){
   if (window.history && orderId) window.history.replaceState({}, document.title, window.location.pathname + '?order_complete=' + encodeURIComponent(orderId));
 })();
 </script>
+
+
+<script>
+(function addVerifiedMeetupChoices() {
+  const heading = document.querySelector('#meetup .heading h1');
+  const helper = document.querySelector('#meetup .heading p');
+  if (heading) heading.textContent = 'Pick a verified public spot';
+  if (helper) helper.textContent = 'Choose a well-lit public place. Exact home addresses stay private.';
+  const pins = document.querySelectorAll('#meetup .pin');
+  if (pins[0]) { pins[0].setAttribute('aria-label', 'Downtown Police Department'); pins[0].innerHTML = '<span>🚔</span>'; }
+  if (pins[1]) { pins[1].setAttribute('aria-label', 'Riverside Shopping Center'); pins[1].innerHTML = '<span>🏬</span>'; }
+  const choices = document.querySelectorAll('#meetup .meetup');
+  if (choices[0]) {
+    choices[0].setAttribute('onclick', "selectMeetup(this,'Downtown Police Department exchange zone')");
+    choices[0].innerHTML = '<span class="icon">🚔</span><span><b>Downtown Police Department exchange zone</b><small>0.7 mi · Marked exchange area · Security cameras</small></span>';
+  }
+  if (choices[1]) {
+    choices[1].setAttribute('onclick', "selectMeetup(this,'Riverside Shopping Center customer-service desk')");
+    choices[1].innerHTML = '<span class="icon">🏬</span><span><b>Riverside Shopping Center customer-service desk</b><small>1.3 mi · Open until 9 PM · Staff nearby</small></span>';
+  }
+})();
+</script>
