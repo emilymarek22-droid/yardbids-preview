@@ -30,7 +30,7 @@
     <section id="checkout" class="screen"><header class="top"><button class="back" onclick="showScreen('auction')">←</button><div class="logo">You won! 🎉</div><span></span></header><div class="checkout-card"><div class="item-mini"><div class="thumb"></div><div><b>Mid-century floor lamp</b><br><small>Winning bid: $18.00</small></div></div><div class="line"><span>Winning bid</span><b>$18.00</b></div><div class="line"><span>Buyer protection</span><b>$1.49</b></div><div class="line"><span id="deliveryLine">Local pickup</span><b id="deliveryCost">Free</b></div><button class="line" style="border:0;background:transparent;width:100%;padding:0;text-align:left" onclick="showScreen('payment')"><span>Payment method</span><b id="paymentLabel">Visa ·•••• 4408 ›</b></button><div class="line total"><span>Total</span><b id="checkoutTotal">$19.49</b></div></div><div class="heading" id="checkoutHeading" style="padding-top:20px"><h1 style="font-size:20px">Choose a safe handoff</h1><p>Select after payment—exact addresses stay private.</p></div><div class="form" id="checkoutOptions"><div class="delivery"><button class="selected" onclick="selectCheckoutDelivery(this,'safe')">🛡️ YardBids Safe Meetup<br><small>Public place nearby</small></button><button onclick="selectCheckoutDelivery(this,'pickup')">📍 Seller pickup<br><small>Details after payment</small></button></div><button class="primary wide" id="payButton" onclick="showScreen('complete')">Pay $19.49 securely</button></div><div class="safety" id="checkoutSafety"><b>🛡️ Meet smart</b>Choose a public, well-lit location and keep chat and payment in YardBids.</div></section>
     <section id="payment" class="screen"><header class="top"><button class="back" onclick="showScreen('checkout')">←</button><div class="logo">Payment <b>method</b></div><span></span></header><div class="heading"><h1>How would you like to pay?</h1><p>Your payment details are encrypted and never shared with the seller.</p></div><button class="account-action" onclick="choosePayment('Visa ·•••• 4408')">💳 Visa ·•••• 4408<small>Expires 09/29</small></button><button class="account-action" onclick="choosePayment('Apple Pay')"> Apple Pay<small>Pay quickly with your saved wallet.</small></button><button class="account-action" onclick="toast('Adding a new card is next in the full app')">＋ Add a new card<small>Use a debit or credit card.</small></button></section>
     <section id="complete" class="screen"><div class="success"><div class="check">✓</div><h1 id="completeTitle">Payment complete</h1><p id="completeMessage">You and Maya can now choose a public YardBids Safe Meetup location.</p><button class="primary wide" id="completeAction" onclick="showScreen('meetup')">Choose a safe meetup</button></div></section>
-    <section id="meetup" class="screen"><header class="top"><button class="back" onclick="finishCheckout()">←</button><div class="logo">Safe <b>Meetup</b></div><span></span></header><div class="heading"><h1>Pick a public spot</h1><p>Both people will see the selected place after confirmation.</p></div><div class="map" aria-label="Map showing two public meetup suggestions"><button class="pin one" aria-label="Central Library"><span>📚</span></button><button class="pin two" aria-label="Market Square"><span>🛍</span></button></div><button class="meetup selected" onclick="selectMeetup(this,'Central Library exchange zone')"><span class="icon">📚</span><span><b>Central Library exchange zone</b><small>0.6 mi · Open until 8 PM · Well-lit entrance</small></span></button><button class="meetup" onclick="selectMeetup(this,'Market Square customer-service entrance')"><span class="icon">🛍</span><span><b>Market Square customer-service entrance</b><small>1.1 mi · Open until 10 PM · Security cameras</small></span></button><div class="form"><button class="primary wide" onclick="confirmMeetup()">Confirm meetup spot</button></div></section>
+    <section id="meetup" class="screen"><header class="top"><button class="back" onclick="showScreen('complete')">←</button><div class="logo">Safe <b>Meetup</b></div><span></span></header><div class="heading"><h1>Pick a public spot</h1><p>Both people will see the selected place after confirmation.</p></div><div class="map" aria-label="Map showing two public meetup suggestions"><button class="pin one" aria-label="Central Library"><span>📚</span></button><button class="pin two" aria-label="Market Square"><span>🛍</span></button></div><button class="meetup selected" onclick="selectMeetup(this,'Central Library exchange zone')"><span class="icon">📚</span><span><b>Central Library exchange zone</b><small>0.6 mi · Open until 8 PM · Well-lit entrance</small></span></button><button class="meetup" onclick="selectMeetup(this,'Market Square customer-service entrance')"><span class="icon">🛍</span><span><b>Market Square customer-service entrance</b><small>1.1 mi · Open until 10 PM · Security cameras</small></span></button><div class="form"><button class="primary wide" onclick="confirmMeetup()">Confirm meetup spot</button></div></section>
     <section id="schedule" class="screen"><header class="top"><button class="back" onclick="showScreen('meetup')">←</button><div class="logo">Set a <b>time</b></div><span></span></header><div class="heading"><h1>When should you meet?</h1><p>Pick a public, daytime time that works for both people.</p></div><div class="handoff-card"><span class="status-pill">SAFE MEETUP</span><h2 id="scheduleLocation">Central Library exchange zone</h2><p>We’ll send the suggested time to Maya in your YardBids chat.</p></div><div class="form"><div class="field">Today<div class="choice" id="meetup-time"><button type="button" class="selected" onclick="selectChoice('meetup-time',this)">5:30 PM</button><button type="button" onclick="selectChoice('meetup-time',this)">6:00 PM</button><button type="button" onclick="selectChoice('meetup-time',this)">6:30 PM</button></div></div><button class="primary wide" onclick="schedulePickup()">Send time suggestion</button></div><div class="safety"><b>🛡️ Meet in public</b>Use the in-app chat to adjust the time. Don’t share a home address.</div></section>
     <section id="handoff" class="screen"><header class="top"><button class="back" onclick="showScreen('inbox')">←</button><div class="logo">Your <b>handoff</b></div><span></span></header><div class="handoff-card"><span class="status-pill">● MEETUP CONFIRMED</span><h2 id="handoffLocation">Central Library exchange zone</h2><p id="handoffTime">Today at 5:30 PM · Maya will meet you at this public location.</p></div><div class="heading" style="padding-top:24px"><h1 style="font-size:22px">Ready to exchange?</h1><p>Only confirm once you have the item and it matches the listing.</p></div><div class="form"><button class="ghost wide" style="margin-bottom:12px" onclick="showScreen('conversation')">Message Maya</button><button class="primary wide" onclick="showScreen('rating')">Confirm pickup complete</button></div><div class="safety"><b>🛡️ Something not right?</b>Don’t confirm pickup. Open a problem report before funds are released.<button class="ghost" style="margin-top:10px" onclick="showScreen('report')">Report a problem</button></div></section>
     <section id="report" class="screen"><header class="top"><button class="back" onclick="showScreen('handoff')">←</button><div class="logo">Report a <b>problem</b></div><span></span></header><div class="heading"><h1>We’ll help sort this out</h1><p>Your payment stays on hold while YardBids reviews the issue.</p></div><button class="report-option" onclick="selectReport(this)">Item was not as described</button><button class="report-option" onclick="selectReport(this)">Seller did not show up</button><button class="report-option" onclick="selectReport(this)">I felt unsafe or uncomfortable</button><button class="report-option" onclick="selectReport(this)">Something else happened</button><textarea class="report-note" rows="4" placeholder="Tell us what happened (optional)"></textarea><div class="form"><button class="primary wide" onclick="submitReport()">Send report</button></div><div class="safety"><b>🛡️ You’re protected</b>Do not meet again if you felt unsafe. YardBids will keep the transaction record and review your report.</div></section>
@@ -39,7 +39,7 @@
     <section id="inbox" class="screen"><header class="top"><div class="logo">Your <b>Inbox</b></div><button class="ghost">Filter</button></header><div class="heading"><h1>Messages & orders</h1><p>Keep every handoff organized in one place.</p></div><button class="order" id="primaryOrder" onclick="showScreen('meetup')"><div class="thumb"></div><span><b>Maya R. · Mid-century floor lamp</b><p id="primaryOrderStatus">Payment received · Choose a safe meetup</p></span></button><button class="order" onclick="showScreen('conversation')"><div class="avatar" style="width:53px;height:53px;font-size:16px">J</div><span><b>Jordan P.</b><p>Is the kitchen bundle still available?</p></span></button></section>
     <section id="conversation" class="screen"><header class="top"><button class="back" onclick="showScreen('inbox')">←</button><div style="text-align:center"><b>Maya R.</b><br><small class="verified">✓ Verified seller</small></div><button class="ghost" onclick="toast('You can report or block a member from their profile')">•••</button></header><div class="safety" style="margin-top:5px"><b>🛡️ Keep it in YardBids</b>Messages are recorded to help protect both people.</div><div class="chat" style="margin:10px 20px"><div class="msg"><b>Maya:</b> Hi! Thanks for your interest in the lamp.</div><div class="msg"><b>You:</b> Great, I’m looking forward to it.</div><div id="directMessages"></div><div class="chat-compose"><input id="directInput" placeholder="Write a message…" onkeydown="if(event.key==='Enter')sendDirect()"><button onclick="sendDirect()">Send</button></div></div></section>
     <section id="watchlist" class="screen"><header class="top"><button class="back" onclick="showScreen('home')">←</button><div class="logo">Your <b>watchlist</b></div><span></span></header><div class="watch-head"><div><h1>Keep an eye on it</h1><p style="margin:4px 0;color:var(--muted);font-size:13px">We’ll remind you before an auction ends.</p></div></div><article class="watch-card"><div class="thumb"></div><div style="flex:1"><h3>Mid-century floor lamp</h3><p>Current bid: <b>$18.00</b> · 12 bidders</p><p class="ending">● Ends in 02:14</p></div><button class="round" onclick="showScreen('auction')">→</button></article><article class="watch-card"><div class="mini-photo" style="width:76px;height:76px;background:linear-gradient(135deg,#bd927b,#5b705c)"></div><div style="flex:1"><h3>Vintage plant stand</h3><p>Starting bid: <b>$5.00</b></p><p class="ending">Starts in 8 minutes</p></div><button class="round" onclick="toast('Reminder set for this auction')">🔔</button></article><div class="reminder"><b>🔔 Auction reminders are on</b>You’ll get alerts 10 minutes before watched auctions end.</div></section>
-    <section id="profile" class="screen"><header class="top"><button class="back" onclick="showScreen('home')">←</button><div class="logo">Seller <b>profile</b></div><span></span></header><div class="profile-head"><div class="avatar">M</div><div><h1>Maya R. <span class="verified">✓</span></h1><p>Verified seller · Member since 2024</p><p>★ 4.9 from 36 reviews</p></div></div><div class="form" style="padding-top:0"><button class="ghost wide" id="followMaya" onclick="followSeller()">＋ Follow Maya</button><button class="ghost wide" style="margin-top:9px" onclick="showScreen('reviews')">★ Read 36 reviews</button></div><div class="profile-stats"><div><b>21</b>Sold</div><div><b>126</b>Followers</div><div><b>10 min</b>Reply time</div></div><div class="heading" style="padding-top:25px"><h1 style="font-size:20px">Maya’s live listings</h1><p>Public profile details only—never home addresses.</p></div><div class="list"><button class="list-item" onclick="showScreen('auction')"><div class="mini-photo" style="background:linear-gradient(135deg,#e8c982,#6a4e31)"></div><span><b>Mid-century floor lamp</b><small>Live now · Current bid $18</small></span></button></div></section>
+    <section id="profile" class="screen"><header class="top"><button class="back" onclick="showScreen('home')">←</button><div class="logo">Seller <b>profile</b></div><span></span></header><div class="profile-head"><div class="avatar">M</div><div><h1>Maya R. <span class="verified">✓</span></h1><p>Verified seller · Member since 2024</p><p>★ 4.9 from 36 reviews</p></div></div><div class="form" style="padding-top:0"><button class="ghost wide" id="followMaya" onclick="followSeller()">＋ Follow Maya</button><button class="ghost wide" style="margin-top:9px" onclick="showScreen('reviews')">★ Read 36 reviews</button><button class="ghost wide" style="margin-top:9px" onclick="startSellerReport()">⚠ Report this seller</button><button class="ghost wide" id="blockMaya" style="margin-top:9px" onclick="blockSeller()">⊘ Block Maya</button></div><div class="profile-stats"><div><b>21</b>Sold</div><div><b>126</b>Followers</div><div><b>10 min</b>Reply time</div></div><div class="heading" style="padding-top:25px"><h1 style="font-size:20px">Maya’s live listings</h1><p>Public profile details only—never home addresses.</p></div><div class="list"><button class="list-item" onclick="showScreen('auction')"><div class="mini-photo" style="background:linear-gradient(135deg,#e8c982,#6a4e31)"></div><span><b>Mid-century floor lamp</b><small>Live now · Current bid $18</small></span></button></div></section>
     <section id="reviews" class="screen"><header class="top"><button class="back" onclick="showScreen('profile')">←</button><div class="logo">Maya’s <b>reviews</b></div><span></span></header><div class="heading"><h1>★ 4.9 out of 5</h1><p>Based on 36 completed YardBids transactions.</p></div><div class="list"><div class="chat"><b>Jordan P. · ★★★★★</b><div class="msg">“Lamp was exactly as described and Maya was easy to meet with. Great experience.”</div><small class="text-muted">Floor lamp · 2 weeks ago</small></div><div style="height:10px"></div><div class="chat"><b>Casey R. · ★★★★★</b><div class="msg">“Quick response, clear photos, and a smooth pickup at a public location.”</div><small class="text-muted">Kitchen items · 1 month ago</small></div><div style="height:10px"></div><div class="chat"><b>Priya S. · ★★★★☆</b><div class="msg">“Item was in great shape. Pickup timing changed once, but Maya let me know right away.”</div><small class="text-muted">Bookshelf · 2 months ago</small></div></div></section>
     <section id="me" class="screen"><header class="top"><div class="logo">My <b>YardBids</b></div><button class="ghost" onclick="toast('Settings are next in the full app')">⚙</button></header><div class="profile-head"><div class="avatar">T</div><div><h1>Taylor</h1><p>Phone verified · Member since 2026</p><p>★ New to YardBids</p></div></div><div class="account-banner"><b>Get verified to build trust</b>Verified buyers and sellers get a badge and can access higher-value auctions.</div><button class="account-action" onclick="showScreen('verify')">🛡️ Verify your identity<small>Usually takes just a few minutes.</small></button><button class="account-action" onclick="showScreen('watchlist')">♡ Your watchlist<small>2 auctions saved and ready to follow.</small></button><button class="account-action" onclick="showScreen('dashboard')">＋ Seller dashboard<small>Manage listings, handoffs, and earnings.</small></button><button class="account-action" onclick="showScreen('safetycenter')">🛡️ Safety & support<small>Meet safely, report a problem, or get help.</small></button></section>
     <section id="safetycenter" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">←</button><div class="logo">Safety & <b>support</b></div><span></span></header><div class="heading"><h1>Buy and sell with confidence</h1><p>YardBids is designed to keep every transaction clear, public, and protected.</p></div><div class="list"><button class="account-action" style="margin:0 0 10px;width:100%" onclick="showScreen('meetup')">📍 Find a Safe Meetup spot<small>Choose a well-lit public location for local pickup.</small></button><button class="account-action" style="margin:0 0 10px;width:100%" onclick="showScreen('report')">⚠ Report a problem<small>Keep payment on hold while YardBids reviews an issue.</small></button><button class="account-action" style="margin:0 0 10px;width:100%" onclick="toast('Help request sent — a YardBids support guide will respond.')">💬 Contact support<small>Get help with an order, payment, or account.</small></button></div><div class="safety"><b>Meet smart</b>Keep payments and messages in YardBids, choose public locations, and do not confirm a pickup until you have the item.</div></section>
@@ -87,6 +87,8 @@
     function previewMedia(input){const file=input.files&&input.files[0];if(!file)return;if(!file.type.startsWith('video/')){previewPhoto(input);return}const url=URL.createObjectURL(file),box=document.getElementById('uploadBox'),preview=document.getElementById('previewImage');box.style.backgroundImage='linear-gradient(#15243a88,#15243a88)';box.style.color='#fff';box.innerHTML='✓ Short video selected<span style="color:#fff">Tap to choose a different photo or video.</span>';preview.style.backgroundImage='none';preview.innerHTML='<video src="'+url+'" controls muted playsinline style="width:100%;height:100%;object-fit:cover"></video><span class="live" style="background:var(--teal)">VIDEO PREVIEW</span>'}
     function rsvpLiveEvent(){toast('Reminder set for Thursday Night Finds!')}
     function followSeller(){const button=document.getElementById('followMaya'),following=button.textContent.includes('Following');button.textContent=following?'＋ Follow Maya':'✓ Following Maya';toast(following?'You stopped following Maya.':'You’ll get alerts when Maya posts an auction.')}
+    function startSellerReport(){showScreen('report');toast('Tell us what happened. Your report is private.')}
+    function blockSeller(){const button=document.getElementById('blockMaya');if(button.dataset.blocked==='true'){button.dataset.blocked='false';button.textContent='⊘ Block Maya';toast('Maya is unblocked.')}else{button.dataset.blocked='true';button.textContent='✓ Maya blocked';toast('Maya will no longer be able to message you.')}}
     function saveLocation(){const value=document.getElementById('locationInput').value.trim();if(!value){toast('Enter a city or ZIP code first.');return}document.getElementById('homeLocation').textContent='📍 '+value;document.getElementById('discoverLocation').textContent='📍 '+value;toast('Location updated!');setTimeout(()=>showScreen('home'),550)}
     function choosePayment(method){document.getElementById('paymentLabel').textContent=method+' ›';toast('Payment method updated');setTimeout(()=>showScreen('checkout'),500)}
     function requestPayout(){toast('Your $24.00 transfer is on its way!');setTimeout(()=>showScreen('dashboard'),750)}
@@ -113,7 +115,7 @@
     window.addEventListener('storage',event=>{if(event.key==='yardbidsBidState')restoreBidState()});
     restoreBidState();
 let apiAuction = null;
-let apiBidTurns = Number(sessionStorage.getItem('yardbidsDemoBidTurns') || 0);
+let apiBidTurns = 0;
 let bidInFlight = false;
 const prototypePlaceBid = placeBid;
 
@@ -162,7 +164,6 @@ placeBid = async function () {
     document.getElementById('nextBid').textContent = 'Next bid: $' + ((updated.currentBidCents + 200) / 100).toFixed(0);
     document.getElementById('bidButton').textContent = 'Bid $' + ((updated.currentBidCents + 200) / 100).toFixed(2);
     apiBidTurns += 1;
-    sessionStorage.setItem('yardbidsDemoBidTurns', String(apiBidTurns));
     if (apiBidTurns >= 3) {
       document.getElementById('timerText').textContent = '00:00';
       document.getElementById('bidButton').textContent = 'Auction ended';
@@ -381,13 +382,11 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 const localOrderFinishCheckout = finishCheckout;
-    const originalShowCheckoutScreen = showScreen;
+const originalShowCheckoutScreen = showScreen;
 showScreen = function (id) {
   originalShowCheckoutScreen(id);
   if (id === 'checkout') {
-    document.querySelectorAll('#checkoutOptions .primary').forEach((button) => {
-      button.onclick = finishCheckout;
-    });
+    document.querySelectorAll('#checkoutOptions .primary').forEach((button) => { button.onclick = finishCheckout; });
   }
 };
 
@@ -438,128 +437,221 @@ finishCheckout = async function () {
     toast('The local payment service is unavailable.');
   }
 };
+
+// One checkout path for the preview. This capture handler deliberately runs
+// before the older prototype click handlers above, so they cannot redirect to
+// the fake "payment complete" screen.
+window.startSecureCheckout = async function (button) {
+  if (location.protocol === 'file:' || !apiAuction) {
+    toast('Open the hosted YardBids preview to test secure payment.');
+    return;
+  }
+  const payButton = button || document.querySelector('#checkoutOptions .primary');
+  if (payButton?.dataset.processing === 'true') return;
+  if (payButton) {
+    payButton.dataset.processing = 'true';
+    payButton.disabled = true;
+    payButton.textContent = 'Opening secure payment…';
+  }
+  try {
+    let buyer = null;
+    try { buyer = JSON.parse(localStorage.getItem('yardbidsLocalUser') || 'null'); } catch (error) {}
+    if (!buyer?.id) {
+      const buyerResponse = await fetch('/api/users', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ displayName: 'YardBids Test Buyer' })
+      });
+      buyer = await buyerResponse.json();
+      if (!buyerResponse.ok) throw new Error(buyer.error || 'Could not create the test buyer.');
+      localStorage.setItem('yardbidsLocalUser', JSON.stringify(buyer));
+    }
+    let orderResponse = await fetch('/api/orders', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ buyerId: buyer.id, auctionId: apiAuction.id, deliveryMethod: deliveryMode })
+    });
+    let order = await orderResponse.json();
+    if (orderResponse.status === 404) {
+      const replacementResponse = await fetch('/api/users', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ displayName: 'YardBids Test Buyer' })
+      });
+      buyer = await replacementResponse.json();
+      if (!replacementResponse.ok) throw new Error(buyer.error || 'Could not refresh the test buyer.');
+      localStorage.setItem('yardbidsLocalUser', JSON.stringify(buyer));
+      orderResponse = await fetch('/api/orders', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ buyerId: buyer.id, auctionId: apiAuction.id, deliveryMethod: deliveryMode })
+      });
+      order = await orderResponse.json();
+    }
+    if (!orderResponse.ok) throw new Error(order.error || 'Could not create the order.');
+    const checkoutResponse = await fetch('/api/stripe/checkout-session', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId: order.id })
+    });
+    const checkout = await checkoutResponse.json();
+    if (!checkoutResponse.ok || !checkout.url) throw new Error(checkout.error || 'Stripe checkout could not be started.');
+    window.location.assign(checkout.url);
+  } catch (error) {
+    toast(error.message || 'Secure payment could not be started.');
+    if (payButton) {
+      payButton.disabled = false;
+      payButton.dataset.processing = 'false';
+      payButton.textContent = 'Try secure payment again';
+    }
+  }
+};
+
+document.addEventListener('click', function (event) {
+  const payButton = event.target.closest('#checkoutOptions .primary, #payButton');
+  if (!payButton) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  window.startSecureCheckout(payButton);
+}, true);
 </script>
 <section id="accountsetup" class="screen"><header class="top"><button class="back" onclick="showScreen('me')">Back</button><div class="logo">Set up <b>account</b></div><span></span></header><div class="heading"><h1>Join YardBids locally</h1><p>Create a local development profile to post listings, bid, and message sellers in this early build.</p></div><div class="form"><label class="field">Display name<input id="localAccountName" maxlength="30" placeholder="Your name"></label><button class="primary wide" onclick="createLocalAccount()">Create local profile</button></div><div class="safety"><b>Development build</b>This creates a profile only in this computer’s local YardBids data. Public sign-in and secure password handling will be added before launch.</div></section>
 </body>
 </html>
-
 <script>
-window.startSecureCheckout=async function(button){
-  if(location.protocol==='file:'||!apiAuction){toast('Open the hosted YardBids preview to test payment.');return;}
-  const b=button||document.querySelector('#checkoutOptions .primary');
-  if(b?.dataset.processing==='true')return;
-  if(b){b.dataset.processing='true';b.disabled=true;b.textContent='Opening secure payment...';}
-  try{
-    let buyer;try{buyer=JSON.parse(localStorage.getItem('yardbidsLocalUser')||'null')}catch(e){}
-    if(!buyer?.id){
-      const r=await fetch('/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({displayName:'YardBids Test Buyer'})});
-      buyer=await r.json();if(!r.ok)throw Error(buyer.error||'Could not create test buyer.');
-      localStorage.setItem('yardbidsLocalUser',JSON.stringify(buyer));
+/* Real account sign-up and sign-in. This uses Supabase Auth directly with the
+   publishable project key; passwords are never stored by YardBids itself. */
+(function enableYardBidsAuth() {
+  if (location.protocol === 'file:') return;
+
+  const accountScreen = document.getElementById('accountsetup');
+  const profileHead = document.querySelector('#me .profile-head');
+  if (!accountScreen || !profileHead) return;
+
+  accountScreen.querySelector('.heading').innerHTML = '<h1>Join YardBids</h1><p>Create a secure account to save listings, message sellers, and keep your auction activity with you.</p>';
+  accountScreen.querySelector('.form').innerHTML = `
+    <label class="field">Display name<input id="yardbidsAuthName" maxlength="30" placeholder="Your name"></label>
+    <label class="field">Email<input id="yardbidsAuthEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>
+    <label class="field">Password<input id="yardbidsAuthPassword" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters"></label>
+    <button class="primary wide" onclick="yardbidsCreateAccount()">Create secure account</button>
+    <button class="ghost wide" onclick="yardbidsSignIn()">I already have an account</button>`;
+  accountScreen.querySelector('.safety').innerHTML = '<b>Private by default</b>Your password is securely handled by our account provider and is never shown to sellers.';
+
+  let configPromise;
+  async function getAuthConfig() {
+    if (!configPromise) {
+      configPromise = fetch('/api/public-config').then(async response => {
+        const config = await response.json();
+        if (!response.ok) throw new Error(config.error || 'Account service is not configured yet');
+        return config;
+      });
     }
-    const or=await fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({buyerId:buyer.id,auctionId:apiAuction.id,deliveryMethod:deliveryMode})});
-    const order=await or.json();if(!or.ok)throw Error(order.error||'Could not create order.');
-    const cr=await fetch('/api/stripe/checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId:order.id})});
-    const checkout=await cr.json();if(!cr.ok||!checkout.url)throw Error(checkout.error||'Stripe checkout could not start.');
-    window.location.assign(checkout.url);
-  }catch(e){toast(e.message||'Secure payment could not start.');if(b){b.disabled=false;b.dataset.processing='false';b.textContent='Try secure payment again';}}
-};
-document.addEventListener('click',function(e){const b=e.target.closest('#checkoutOptions .primary,#payButton');if(!b)return;e.preventDefault();e.stopImmediatePropagation();window.startSecureCheckout(b);},true);
+    return configPromise;
+  }
+
+  function savedAccount() {
+    try { return JSON.parse(localStorage.getItem('yardbidsAuthAccount') || 'null'); } catch (_) { return null; }
+  }
+
+  function showSignedIn(account) {
+    if (!account) return;
+    const heading = document.querySelector('#me .profile-head h1');
+    const button = document.getElementById('localAccountButton');
+    if (heading && account.displayName) heading.textContent = account.displayName;
+    if (button) {
+      button.textContent = 'Sign out';
+      button.onclick = () => {
+        localStorage.removeItem('yardbidsAuthAccount');
+        localStorage.removeItem('yardbidsAuthSession');
+        button.textContent = 'Sign in';
+        button.onclick = () => showScreen('accountsetup');
+        toast('Signed out of YardBids.');
+      };
+    }
+  }
+
+  async function submitAuth(mode) {
+    const displayName = document.getElementById('yardbidsAuthName').value.trim();
+    const email = document.getElementById('yardbidsAuthEmail').value.trim();
+    const password = document.getElementById('yardbidsAuthPassword').value;
+    if (!email || !password || (mode === 'signup' && displayName.length < 2)) {
+      toast(mode === 'signup' ? 'Enter your name, email, and an 8-character password.' : 'Enter your email and password.');
+      return;
+    }
+    if (password.length < 8) { toast('Use a password with at least 8 characters.'); return; }
+    try {
+      const config = await getAuthConfig();
+      const endpoint = mode === 'signup' ? 'signup' : 'token?grant_type=password';
+      const payload = mode === 'signup'
+        ? { email, password, data: { display_name: displayName } }
+        : { email, password };
+      const response = await fetch(config.supabaseUrl + '/auth/v1/' + endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: config.supabasePublishableKey },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!response.ok) { toast(result.error_description || result.msg || 'We could not sign you in.'); return; }
+      const user = result.user || result.session?.user;
+      const account = { id: user?.id, displayName: displayName || user?.user_metadata?.display_name || email.split('@')[0], email };
+      localStorage.setItem('yardbidsAuthAccount', JSON.stringify(account));
+      if (result.session) localStorage.setItem('yardbidsAuthSession', JSON.stringify(result.session));
+      showSignedIn(account);
+      if (mode === 'signup' && !result.session) {
+        toast('Account created — check your email to confirm it, then sign in.');
+      } else {
+        toast('You are signed in to YardBids!');
+        setTimeout(() => showScreen('me'), 500);
+      }
+    } catch (error) {
+      toast('Account service is unavailable. Please try again.');
+    }
+  }
+
+  window.yardbidsCreateAccount = () => submitAuth('signup');
+  window.yardbidsSignIn = () => submitAuth('signin');
+  const existingButton = document.getElementById('localAccountButton');
+  if (existingButton) { existingButton.textContent = 'Sign in'; existingButton.onclick = () => showScreen('accountsetup'); }
+  showSignedIn(savedAccount());
+})();
 </script>
-
 <script>
-window.startSecureCheckout=async function(button){
- const b=button||document.querySelector('#checkoutOptions .primary');if(b?.dataset.processing==='true')return;
- if(b){b.dataset.processing='true';b.disabled=true;b.textContent='Opening secure payment...';}
- try{
-  let buyer;try{buyer=JSON.parse(localStorage.getItem('yardbidsLocalUser')||'null')}catch(e){}
-  async function newBuyer(){const r=await fetch('/api/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({displayName:'YardBids Test Buyer'})});const x=await r.json();if(!r.ok)throw Error(x.error||'Could not create test buyer.');localStorage.setItem('yardbidsLocalUser',JSON.stringify(x));return x;}
-  if(!buyer?.id)buyer=await newBuyer();
-  async function newOrder(){const r=await fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({buyerId:buyer.id,auctionId:apiAuction.id,deliveryMethod:deliveryMode})});return {r,x:await r.json()};}
-  let result=await newOrder();if(result.r.status===404){buyer=await newBuyer();result=await newOrder();}
-  if(!result.r.ok)throw Error(result.x.error||'Could not create order.');
-  const r=await fetch('/api/stripe/checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({orderId:result.x.id})});const x=await r.json();if(!r.ok||!x.url)throw Error(x.error||'Stripe checkout could not start.');window.location.assign(x.url);
- }catch(e){toast(e.message||'Secure payment could not start.');if(b){b.disabled=false;b.dataset.processing='false';b.textContent='Try secure payment again';}}
-};
-</script>
-
-
-<script>
+/* Stripe sends a buyer back here after a completed test checkout. Keep the
+   next action obvious and make the safe pickup flow one tap away. */
 (async function showReturnedCheckout() {
   const query = new URLSearchParams(window.location.search);
   if (query.get('stripe_checkout') !== 'success') return;
+
+  const orderId = query.get('order_id');
+  let order = null;
+  if (orderId && location.protocol !== 'file:') {
+    try {
+      const response = await fetch('/api/orders/' + encodeURIComponent(orderId));
+      if (response.ok) order = await response.json();
+    } catch (error) {}
+  }
+
+  const isShipping = order?.deliveryMethod === 'shipping';
   const title = document.getElementById('completeTitle');
   const message = document.getElementById('completeMessage');
   const action = document.getElementById('completeAction');
   if (!title || !message || !action) return;
+
   title.textContent = 'Payment complete';
-  message.textContent = 'Your order is confirmed. Next, choose a public YardBids Safe Meetup spot for the handoff.';
-  action.textContent = 'Choose a safe meetup';
-  action.onclick = function () { showScreen('meetup'); };
-  const status = document.getElementById('primaryOrderStatus');
-  if (status) status.textContent = 'Payment received · Choose a safe meetup';
-  const order = document.getElementById('primaryOrder');
-  if (order) order.onclick = function () { showScreen('meetup'); };
+  if (isShipping) {
+    message.textContent = 'Your order is confirmed. Maya will receive a prepaid shipping label, and you can follow updates in your inbox.';
+    action.textContent = 'View order updates';
+    action.onclick = function () { showScreen('inbox'); };
+    const status = document.getElementById('primaryOrderStatus');
+    if (status) status.textContent = 'Payment received · Shipping updates coming soon';
+  } else {
+    message.textContent = 'Your order is confirmed. Next, choose a public YardBids Safe Meetup spot for the handoff.';
+    action.textContent = 'Choose a safe meetup';
+    action.onclick = function () { showScreen('meetup'); };
+    const status = document.getElementById('primaryOrderStatus');
+    if (status) status.textContent = 'Payment received · Choose a safe meetup';
+    const primaryOrder = document.getElementById('primaryOrder');
+    if (primaryOrder) primaryOrder.onclick = function () { showScreen('meetup'); };
+  }
+
   showScreen('complete');
-  const orderId = query.get('order_id');
-  if (window.history && orderId) window.history.replaceState({}, document.title, window.location.pathname + '?order_complete=' + encodeURIComponent(orderId));
-})();
-</script>
-
-
-<script>
-(function addVerifiedMeetupChoices() {
-  const heading = document.querySelector('#meetup .heading h1');
-  const helper = document.querySelector('#meetup .heading p');
-  if (heading) heading.textContent = 'Pick a verified public spot';
-  if (helper) helper.textContent = 'Choose a well-lit public place. Exact home addresses stay private.';
-  const pins = document.querySelectorAll('#meetup .pin');
-  if (pins[0]) { pins[0].setAttribute('aria-label', 'Downtown Police Department'); pins[0].innerHTML = '<span>🚔</span>'; }
-  if (pins[1]) { pins[1].setAttribute('aria-label', 'Riverside Shopping Center'); pins[1].innerHTML = '<span>🏬</span>'; }
-  const choices = document.querySelectorAll('#meetup .meetup');
-  if (choices[0]) {
-    choices[0].setAttribute('onclick', "selectMeetup(this,'Downtown Police Department exchange zone')");
-    choices[0].innerHTML = '<span class="icon">🚔</span><span><b>Downtown Police Department exchange zone</b><small>0.7 mi · Marked exchange area · Security cameras</small></span>';
-  }
-  if (choices[1]) {
-    choices[1].setAttribute('onclick', "selectMeetup(this,'Riverside Shopping Center customer-service desk')");
-    choices[1].innerHTML = '<span class="icon">🏬</span><span><b>Riverside Shopping Center customer-service desk</b><small>1.3 mi · Open until 9 PM · Staff nearby</small></span>';
+  if (window.history && orderId) {
+    window.history.replaceState({}, document.title, window.location.pathname + '?order_complete=' + encodeURIComponent(orderId));
   }
 })();
 </script>
-
-<script>(function(){const c=document.querySelector('#handoff .handoff-card');if(!c)return;const box=document.createElement('div');box.className='safety';box.style.margin='16px 20px';box.innerHTML='<b>🛡️ Meetup check-in code</b>Show this only when you are both at the public location.<button class="ghost" style="margin-top:10px" onclick="this.textContent='YB-4821 · Code verified'">Show check-in code</button>';c.insertAdjacentElement('afterend',box)})();</script>
-<script>
-(function () {
-  const profile = document.querySelector('#me .profile-head');
-  if (!profile || document.getElementById('yardbidsSignIn')) return;
-
-  const button = document.createElement('button');
-  button.id = 'yardbidsSignIn';
-  button.className = 'ghost';
-  button.textContent = 'Sign in';
-  button.onclick = async () => {
-    const email = prompt('Email address');
-    const password = prompt('Password');
-    if (!email || !password) return;
-
-    const config = await fetch('/api/public-config').then(r => r.json());
-    const response = await fetch(
-      config.supabaseUrl + '/auth/v1/token?grant_type=password',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          apikey: config.supabasePublishableKey
-        },
-        body: JSON.stringify({ email, password })
-      }
-    );
-    const result = await response.json();
-    if (!response.ok) return alert(result.error_description || 'Sign in failed.');
-
-    localStorage.setItem('yardbidsAuthSession', JSON.stringify(result));
-    button.textContent = 'Signed in';
-    alert('Welcome to YardBids!');
-  };
-
-  profile.appendChild(button);
