@@ -119,9 +119,16 @@ const server = http.createServer(async (request, response) => {
   const parts = url.pathname.split('/').filter(Boolean);
 
   if (request.method === 'GET' && url.pathname === '/api/health') {
-    return sendJson(response, 200, { ok: true, service: 'yardbids-local-mvp' });
+    return sendJson(response, 200, { ok: true, service: 'yardbid
+s-local-mvp' });
   }
-
+if (request.method === 'GET' && url.pathname === '/api/public-config') {
+    const config = supabasePublicConfig();
+    if (!config.supabaseUrl || !config.supabasePublishableKey) {
+      return sendJson(response, 503, { error: 'Supabase is not configured yet' });
+    }
+    return sendJson(response, 200, config);
+  }
   if (request.method === 'GET' && url.pathname === '/api/auctions') {
     return sendJson(response, 200, readData().auctions);
   }
