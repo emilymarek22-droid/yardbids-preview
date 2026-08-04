@@ -528,3 +528,38 @@ window.startSecureCheckout=async function(button){
 </script>
 
 <script>(function(){const c=document.querySelector('#handoff .handoff-card');if(!c)return;const box=document.createElement('div');box.className='safety';box.style.margin='16px 20px';box.innerHTML='<b>🛡️ Meetup check-in code</b>Show this only when you are both at the public location.<button class="ghost" style="margin-top:10px" onclick="this.textContent='YB-4821 · Code verified'">Show check-in code</button>';c.insertAdjacentElement('afterend',box)})();</script>
+<script>
+(function () {
+  const profile = document.querySelector('#me .profile-head');
+  if (!profile || document.getElementById('yardbidsSignIn')) return;
+
+  const button = document.createElement('button');
+  button.id = 'yardbidsSignIn';
+  button.className = 'ghost';
+  button.textContent = 'Sign in';
+  button.onclick = async () => {
+    const email = prompt('Email address');
+    const password = prompt('Password');
+    if (!email || !password) return;
+
+    const config = await fetch('/api/public-config').then(r => r.json());
+    const response = await fetch(
+      config.supabaseUrl + '/auth/v1/token?grant_type=password',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          apikey: config.supabasePublishableKey
+        },
+        body: JSON.stringify({ email, password })
+      }
+    );
+    const result = await response.json();
+    if (!response.ok) return alert(result.error_description || 'Sign in failed.');
+
+    localStorage.setItem('yardbidsAuthSession', JSON.stringify(result));
+    button.textContent = 'Signed in';
+    alert('Welcome to YardBids!');
+  };
+
+  profile.appendChild(button);
