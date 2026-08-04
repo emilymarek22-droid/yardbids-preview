@@ -22,6 +22,18 @@ function loadPrivateConfig() {
 
 loadPrivateConfig();
 
+function stripeSecretKey() {
+  return String(process.env.STRIPE_SECRET_KEY || '')
+    .trim()
+    .replace(/^(['\"])(.*)\1$/, '$2');
+}
+
+function supabasePublicConfig() {
+  const supabaseUrl = String(process.env.SUPABASE_URL || '').trim().replace(/^(['\"])(.*)\1$/, '$2');
+  const supabasePublishableKey = String(process.env.SUPABASE_PUBLISHABLE_KEY || '').trim().replace(/^(['\"])(.*)\1$/, '$2');
+  return { supabaseUrl, supabasePublishableKey };
+}
+
 function readData() {
   const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
   data.users ||= [];
@@ -74,7 +86,7 @@ function createStripeCheckoutSession(order, siteUrl) {
       path: '/v1/checkout/sessions',
       method: 'POST',
       headers: {
-        Authorization: `Basic ${Buffer.from(`${process.env.STRIPE_SECRET_KEY}:`).toString('base64')}`,
+        Authorization: `Basic ${Buffer.from(`${stripeSecretKey()}:`).toString('base64')}`,
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': Buffer.byteLength(fields)
       }
@@ -118,18 +130,18 @@ const server = http.createServer(async (request, response) => {
   const url = new URL(request.url, `http://${request.headers.host}`);
   const parts = url.pathname.split('/').filter(Boolean);
 
-  if (request.method ==
-    = 'GET' && url.pathname === '/api/health') { = 'if (request.method === 'GET' && url.pathname === '/api/health') {     return sendJson(response, 200, { ok: true, service: 'yardbids-local-mvp' });   }') {
-    return sendJson(response, 200, { ok: true, service: 'yardbid
-s-local-mvp' });
+  if (request.method === 'GET' && url.pathname === '/api/health') {
+    return sendJson(response, 200, { ok: true, service: 'yardbids-local-mvp' });
   }
-if (request.method === 'GET' && url.pathname === '/api/public-config') {
+
+  if (request.method === 'GET' && url.pathname === '/api/public-config') {
     const config = supabasePublicConfig();
     if (!config.supabaseUrl || !config.supabasePublishableKey) {
       return sendJson(response, 503, { error: 'Supabase is not configured yet' });
     }
     return sendJson(response, 200, config);
   }
+
   if (request.method === 'GET' && url.pathname === '/api/auctions') {
     return sendJson(response, 200, readData().auctions);
   }
@@ -196,6 +208,13 @@ if (request.method === 'GET' && url.pathname === '/api/public-config') {
     return sendJson(response, 200, orders);
   }
 
+  if (request.method === 'GET' && parts[0] === 'api' && parts[1] === 'orders' && parts.length === 3) {
+    const order = readData().orders.find((item) => item.id === parts[2]);
+    return order
+      ? sendJson(response, 200, order)
+      : sendJson(response, 404, { error: 'Order not found' });
+  }
+
   if (request.method === 'POST' && url.pathname === '/api/orders') {
     try {
       const input = await readJson(request);
@@ -227,7 +246,7 @@ if (request.method === 'GET' && url.pathname === '/api/public-config') {
 
   if (request.method === 'POST' && url.pathname === '/api/stripe/checkout-session') {
     try {
-      if (!String(process.env.STRIPE_SECRET_KEY || '').startsWith('sk_test_')) {
+      if (!stripeSecretKey().startsWith('sk_test_')) {
         return sendJson(response, 503, { error: 'Stripe test mode is not configured yet' });
       }
       const input = await readJson(request);
@@ -289,11 +308,3 @@ if (request.method === 'GET' && url.pathname === '/api/public-config') {
 server.listen(port, host, () => {
   console.log(`YardBids development server running on ${host}:${port}`);
 });
-
-// Normalize an accidentally quoted or spaced Render secret.
-process.env.STRIPE_SECRET_KEY = String(process.env.STRIPE_SECRET_KEY || '').trim().replace(/^(['\"])(.*)\1$/, '$2');
-function supabasePublicConfig() {
-  const supabaseUrl = String(process.env.SUPABASE_URL || '').trim();
-  const supabasePublishableKey = String(process.env.SUPABASE_PUBLISHABLE_KEY || '').trim();
-  return { supabaseUrl, supabasePublishableKey };
-}
