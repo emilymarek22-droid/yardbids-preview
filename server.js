@@ -281,3 +281,6 @@ const server = http.createServer(async (request, response) => {
 server.listen(port, host, () => {
   console.log(`YardBids development server running on ${host}:${port}`);
 });
+
+// Normalize an accidentally quoted or spaced Render secret.
+process.env.STRIPE_SECRET_KEY = String(process.env.STRIPE_SECRET_KEY || '').trim().replace(/^(['\"])(.*)\1$/, '$2');
