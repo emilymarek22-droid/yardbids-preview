@@ -118,7 +118,8 @@ const server = http.createServer(async (request, response) => {
   const url = new URL(request.url, `http://${request.headers.host}`);
   const parts = url.pathname.split('/').filter(Boolean);
 
-  if (request.method === 'GET' && url.pathname === 'if (request.method === 'GET' && url.pathname === '/api/health') {     return sendJson(response, 200, { ok: true, service: 'yardbids-local-mvp' });   }') {
+  if (request.method ==
+    = 'GET' && url.pathname === '/api/health') { = 'if (request.method === 'GET' && url.pathname === '/api/health') {     return sendJson(response, 200, { ok: true, service: 'yardbids-local-mvp' });   }') {
     return sendJson(response, 200, { ok: true, service: 'yardbid
 s-local-mvp' });
   }
