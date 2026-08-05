@@ -252,20 +252,23 @@ postListing = function (event) {
 
 publishListing = async function () {
   if (!localListingDraft || location.protocol === 'file:') return prototypePublishListing();
-  let localUser = null;
-  try { localUser = JSON.parse(localStorage.getItem('yardbidsLocalUser') || 'null'); } catch (error) {}
-  if (!localUser?.id) { toast('Set up your local account before publishing.'); return; }
+  let seller = null;
+  try {
+    seller = JSON.parse(localStorage.getItem('yardbidsAuthAccount') || 'null') ||
+      JSON.parse(localStorage.getItem('yardbidsLocalUser') || 'null');
+  } catch (error) {}
+  if (!seller?.id) { toast('Sign in before publishing your listing.'); return; }
   try {
     const response = await fetch('/api/listings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...localListingDraft, sellerId: localUser.id })
+      body: JSON.stringify({ ...localListingDraft, sellerId: seller.id, sellerName: seller.displayName || 'YardBids seller' })
     });
     const listing = await response.json();
     if (!response.ok) { toast(listing.error || 'Listing could not be saved.'); return; }
     saveListing({ title: listing.title, price: '$' + (listing.startingBidCents / 100).toFixed(2), photo: '' });
     applySavedListing();
-    toast('Listing saved to the local YardBids data store!');
+    toast('Your listing is live!');
     setTimeout(() => showScreen('dashboard'), 700);
   } catch (error) {
     toast('The local data service is unavailable.');
