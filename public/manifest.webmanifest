@@ -1,0 +1,17 @@
+{
+  "name": "YardBids – Local Auctions",
+  "short_name": "YardBids",
+  "description": "A safer social marketplace for live local auctions and public meetup pickups.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fffaf2",
+  "theme_color": "#15243a",
+  "icons": [
+    {
+      "src": "/yardbids-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
